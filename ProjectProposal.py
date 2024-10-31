@@ -86,7 +86,7 @@ with st.sidebar:
 
     # Project Members
     st.subheader("Members")
-    st.markdown("1. Joanna Hyacinth M. Reyes") #I did all the graphs and datasets so what?
+    st.markdown("1. Joanna Hyacinth M. Reyes") #I did all the graphs, trained models, predicted stuffs, and datasets so what?
 
 #######################
 # Data
@@ -454,9 +454,9 @@ elif st.session_state.page_selection == "prediction":
     
     
     
-    col = st.columns((1.5, 4.5, 3), gap='medium')
-    with col[0]:
-    with col[1]:
+    #col = st.columns((1.5, 4.5, 3), gap='medium')
+    #with col[0]:
+    #with col[1]:
     
     
     
