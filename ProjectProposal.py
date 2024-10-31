@@ -102,8 +102,7 @@ df = pd.read_csv("data/android-games.csv")
 if st.session_state.page_selection == "about":
     st.header("ℹ️ About")
 
-    st.write("This application explores and analyzes a dataset of Android games available on the Google Play Store. 
-    The dataset contains information about various aspects of these games, including their category, installs, ratings, and growth over time.")
+    st.write("This application explores and analyzes a dataset of Android games available on the Google Play Store. The dataset contains information about various aspects of these games, including their category, installs, ratings, and growth over time.")
 
     st.markdown("**Data Column Description**")
     st.write("Rank - The game's rank.")
@@ -129,12 +128,9 @@ if st.session_state.page_selection == "about":
     st.markdown("**Pages**")
 
     st.write("1. Dataset - Brief description of the Top 100 Google Playstore Games dataset used in this dashboard.")
-    st.write("2. EDA - Exploratory Data Analysis of the games dataset. Highlighting the distribution of Iris species and the relationship between the features. 
-    Includes graphs such as Pie Chart, Violinplots, Barplots, Boxplots and Scatterplots.")
-    st.write("3. Data Cleaning / Pre-processing - Data cleaning and pre-processing steps such as 
-    encoding the installs column for training and testing sets.")
-    st.write("4. Machine Learning - Training three supervised classification models: ARIMA, Linear Regression, and Random Forest. 
-    This also includes model evaluation, feature importance, and tree plot")
+    st.write("2. EDA - Exploratory Data Analysis of the games dataset. Highlighting the distribution of Iris species and the relationship between the features. It includes graphs such as Pie Chart, Violinplots, Barplots, Boxplots and Scatterplots.")
+    st.write("3. Data Cleaning / Pre-processing - Data cleaning and pre-processing steps such as encoding the installs column for training and testing sets.")
+    st.write("4. Machine Learning - Training three supervised classification models: ARIMA, Linear Regression, and Random Forest. This also includes model evaluation, feature importance, and tree plot")
     st.write("5. Prediction - Prediction page where 15 random different games will be displayed and its predicted rank and growth in 60 days")
     st.write("6. Conclusion - Summary of the insights and observations from the EDA and model training.")
 
@@ -230,14 +226,12 @@ elif st.session_state.page_selection == "data_cleaning":
     st.write("The data contains 1730 rows and 15 columns that doesn't contain any null values.\n")
     df.info()
 
-    st.write("The installs column is composed of 'milestones' meaning it shows how many times the game was downloaded. It does not show the accurate number of installs of a game, rather it 
-    depicts a milestone of how many times the game has been downloaded, thus it will be converted to represent it numerically to improve the models.")
+    st.write("The installs column is composed of 'milestones' meaning it shows how many times the game was downloaded. It does not show the accurate number of installs of a game, rather it depicts a milestone of how many times the game has been downloaded, thus it will be converted to represent it numerically to improve the models.")
     st.write("This code will be used:")
     
     code0 = """
     label_encoder = LabelEncoder()
-    install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']],
-                                 handle_unknown='use_encoded_value', unknown_value=-1)
+    install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
     df['installsNumber'] = label_encoder.fit_transform(df['installs'])
     """
 
@@ -245,8 +239,7 @@ elif st.session_state.page_selection == "data_cleaning":
     
 #labelling code
     label_encoder = LabelEncoder()
-    install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']],
-                                 handle_unknown='use_encoded_value', unknown_value=-1)
+    install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
     df['installsNumber'] = label_encoder.fit_transform(df['installs'])
     
 #I put training code here in this part.
@@ -256,8 +249,7 @@ elif st.session_state.page_selection == "data_cleaning":
     #ARIMA model training
 
     st.markdown('**For the ARIMA model**')
-    st.write("The ARIMA model will be used in order to 
-    predict the growth over 2 months using the rank and the 1 month growth, thus the 30/60 days growth will only be used to predict the rank of the game.")
+    st.write("The ARIMA model will be used in order to predict the growth over 2 months using the rank and the 1 month growth, thus the 30/60 days growth will only be used to predict the rank of the game.")
 
     code1 = """
     Adt = df[['growth (30 days)', 'growth (60 days)']]
@@ -292,9 +284,7 @@ elif st.session_state.page_selection == "data_cleaning":
       
     st.markdown('**For the Linear Regression and Random Forest model**')
 
-    st.write("There will be 2 models used to determine the rank of the game, using different sets of features.\n
-    The linear regression model will use the growth and the number of installs to predict the rank of the game. This will measure the rank basing on the activeness of the game or how often the users engage with the game.\n
-    The random forest on the other hand shall use the average rating, installs, and growth(30 days) to determine the rank of the game. This code shall be used to train and split the data.")
+    st.write("There will be 2 models used to determine the rank of the game, using different sets of features.\n The linear regression model will use the growth and the number of installs to predict the rank of the game. This will measure the rank basing on the activeness of the game or how often the users engage with the game.\n The random forest on the other hand shall use the average rating, installs, and growth(30 days) to determine the rank of the game. This code shall be used to train and split the data.")
 
     code2 = """
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -310,10 +300,7 @@ elif st.session_state.page_selection == "machine_learning":
     # Your content for the MACHINE LEARNING page goes here
 
     st.markdown("**ARIMA model**")
-    st.write("This employs the ARIMA (Autoregressive Integrated Moving Average) technique to forecast the 60-day growth of a game title based on its 30-day growth. 
-    ARIMA models are widely used for time series analysis and forecasting, leveraging past data patterns to predict future values. 
-    By utilizing historical growth data, this model aims to project the game's growth trajectory over the subsequent two months. 
-    This prediction can be valuable for understanding the long-term performance potential of a game and making informed decisions about marketing strategies and resource allocation.")
+    st.write("This employs the ARIMA (Autoregressive Integrated Moving Average) technique to forecast the 60-day growth of a game title based on its 30-day growth. ARIMA models are widely used for time series analysis and forecasting, leveraging past data patterns to predict future values. By utilizing historical growth data, this model aims to project the game's growth trajectory over the subsequent two months. This prediction can be valuable for understanding the long-term performance potential of a game and making informed decisions about marketing strategies and resource allocation.")
 
     st.write("In order to choose the best order for arima, an auto arima is used to determine the best order for the dataset.")
     code3 = """
@@ -339,8 +326,7 @@ elif st.session_state.page_selection == "machine_learning":
 #Feature Importance
     st.markdown("**Linear Regression model**")
 
-    st.write("This utilizes linear regression to predict the rank of a game title based on its growth in 30 and 60 days and the number of installs. 
-    This model could be valuable for developers and marketers to gauge the potential success of a game based on its early performance indicators.")
+    st.write("This utilizes linear regression to predict the rank of a game title based on its growth in 30 and 60 days and the number of installs. This model could be valuable for developers and marketers to gauge the potential success of a game based on its early performance indicators.")
     
     X = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]  # Include all relevant features
     y = df['rank']
@@ -369,18 +355,10 @@ elif st.session_state.page_selection == "machine_learning":
     r2 = r2_score(y_test, y_pred)
     
     
-    st.write("In this graph, it shows that the average rating and the number of installs gives negative influence while 
-    whether the game is paid or not shows the highest value, since free games tend to go on top in stores. This means that the amount of installs and how high the rating affects the output.
-    The growth(30/60 days) also shows no importance from the graph. Thus, irrelevant features shall be removed to improve accuracy")
-
-
-
+    st.write("In this graph, it shows that the average rating and the number of installs gives negative influence while whether the game is paid or not shows the highest value, since free games tend to go on top in stores. This means that the amount of installs and how high the rating affects the output. The
 
     st.markdown("**Random Forest model**")
-    st.write("This will utilize the Random Forest algorithm, an ensemble learning method, to predict the rank of a game title based on its average rating, number of installs, and 30-day growth. 
-    Random Forest combines multiple decision trees to create a robust and accurate prediction model. 
-    By considering these key performance indicators, this model aims to estimate a game's ranking on the Google Play Store. 
-    This information can be valuable for understanding the factors that influence game rankings and for making data-driven decisions to improve a game's visibility and discoverability.")
+    st.write("This will utilize the Random Forest algorithm, an ensemble learning method, to predict the rank of a game title based on its average rating, number of installs, and 30-day growth. Random Forest combines multiple decision trees to create a robust and accurate prediction model. By considering these key performance indicators, this model aims to estimate a game's ranking on the Google Play Store. This information can be valuable for understanding the factors that influence game rankings and for making data-driven decisions to improve a game's visibility and discoverability.")
     
 #RANDOM FOREST model code
 
@@ -402,9 +380,7 @@ elif st.session_state.page_selection == "machine_learning":
     plt.ylabel('Feature')
     plt.show()
 
-    st.write("Unlike the Linear Regression model, this graph shows that whether the game is free or not does not have much impact the model.
-    It shows that 60-day growth has the highest influence, followed by the number of installs and the 30-day growth. 
-    The average rating of the game also doesn't have much importance in determining the rank.")
+    st.write("Unlike the Linear Regression model, this graph shows that whether the game is free or not does not have much impact the model.　It shows that 60-day growth has the highest influence, followed by the number of installs and the 30-day growth. The average rating of the game also doesn't have much importance in determining the rank.")
     
 
     y_pred = rf_model.predict(X_test)
