@@ -2,6 +2,7 @@ streamlit
 altair
 plotly
 statsmodels
+pmdarima
 Cython
 pandas
 numpy
