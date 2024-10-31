@@ -1,8 +1,8 @@
 streamlit
 altair
 plotly
-statsmodels==0.14.0
-
+statsmodels
+Cython
 pandas
 numpy
 matplotlib
