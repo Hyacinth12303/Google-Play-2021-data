@@ -1,8 +1,8 @@
 streamlit
 altair
 plotly
-statsmodels==0.13.5
-pmdarima==2.0.3
+statsmodels
+pmdarima
 pandas
 numpy
 matplotlib
