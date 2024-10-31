@@ -107,6 +107,18 @@ if st.session_state.page_selection == "about":
 
     # Your content for the ABOUT page goes here
 
+    st.markdown("**Pages**")
+
+    st.write("1. Dataset - Brief description of the Top 100 Google Playstore Games dataset used in this dashboard.")
+    st.write("2. EDA - Exploratory Data Analysis of the games dataset. Highlighting the distribution of Iris species and the relationship between the features. 
+    Includes graphs such as Pie Chart, Violinplots, Barplots, Boxplots and Scatterplots.")
+    st.write("3. Data Cleaning / Pre-processing - Data cleaning and pre-processing steps such as 
+    encoding the installs column for training and testing sets.")
+    st.write("4. Machine Learning - Training three supervised classification models: ARIMA, Linear Regression, and Random Forest. 
+    This also includes model evaluation, feature importance, and tree plot")
+    st.write("5. Prediction - Prediction page where 15 random different games will be displayed and its predicted rank and growth in 60 days")
+    st.write("6. Conclusion - Summary of the insights and observations from the EDA and model training.")
+
 # Dataset Page
 elif st.session_state.page_selection == "dataset":
     st.header("📊 Dataset")
