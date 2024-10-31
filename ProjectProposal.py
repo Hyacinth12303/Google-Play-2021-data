@@ -176,7 +176,7 @@ elif st.session_state.page_selection == "dataset":
         st.write(df.dtypes)
         st.write("The data shows a series of float, int, object and a bool non-null dtypes.")
     with col[1]:
-        df.info()
+        st.write(df.info())
     
 
 # EDA Page
