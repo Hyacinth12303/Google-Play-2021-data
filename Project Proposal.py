@@ -1,9 +1,36 @@
 #######################
 # Import libraries
-import streamlit as st
+!pip install statsmodels==0.13.5 #for ARIMA
+
 import pandas as pd
-import altair as alt
-import plotly.express as px
+import numpy as np
+
+import matplotlib.pyplot as plt
+from sklearn import datasets
+import matplotlib.ticker as ticker
+import seaborn as sns
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score, accuracy_score, classification_report
+
+from statsmodels.tsa.arima.model import ARIMA
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+#For the values
+!pip install pmdarima==2.0.3
+from pmdarima import auto_arima
+
+from sklearn.ensemble import RandomForestRegressor
+
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OrdinalEncoder
+from sklearn.metrics import accuracy_score, classification_report
+
+import re
+import random #testing
+
+import warnings
+warnings.filterwarnings('ignore')
 
 #######################
 # Page configuration
@@ -29,7 +56,7 @@ def set_page_selection(page):
 with st.sidebar:
 
     # Sidebar Title (Change this with your project's title)
-    st.title('Dashboard Template')
+    st.title('Google Playstore Top Games (2021)')
 
     # Page Button Navigation
     st.subheader("Pages")
@@ -73,7 +100,8 @@ dataset = pd.read_csv("data/android-games.csv")
 if st.session_state.page_selection == "about":
     st.header("ℹ️ About")
 
-    st.write("This application ")
+    st.write("This application explores and analyzes a dataset of Android games available on the Google Play Store. 
+    The dataset contains information about various aspects of these games, including their category, installs, ratings, and growth over time.")
 
     # Your content for the ABOUT page goes here
 
@@ -85,6 +113,7 @@ elif st.session_state.page_selection == "dataset":
     st.write("")
 
     # Your content for your DATASET page goes here
+    df = pd.read_csv("data/android-games.csv")
 
 # EDA Page
 elif st.session_state.page_selection == "eda":
