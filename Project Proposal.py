@@ -1,6 +1,6 @@
 #######################
 # Import libraries
-pip install statsmodels==0.13.5 #for ARIMA
+
 import streamlit as st
 
 import pandas as pd
@@ -18,7 +18,7 @@ from sklearn.metrics import mean_squared_error, r2_score, accuracy_score, classi
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 #For the values
-pip install pmdarima==2.0.3
+
 from pmdarima import auto_arima
 
 from sklearn.ensemble import RandomForestRegressor
