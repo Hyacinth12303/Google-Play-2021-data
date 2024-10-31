@@ -413,33 +413,33 @@ elif st.session_state.page_selection == "prediction":
     # Your content for the EDA page goes here
 
     
-        st.markdown("###ARIMA model random game prediction visualizer")
+    st.markdown("###ARIMA model random game prediction visualizer")
 
-        def visualize_predictions():
-            sample_indices = random.sample(range(len(df)), 15)
-            sample_indices.sort()
+    def visualize_predictions():
+        sample_indices = random.sample(range(len(df)), 15)
+        sample_indices.sort()
 
-            titles = []
-            actual_ranks = []
-            predicted_ranks = []
+        titles = []
+        actual_ranks = []
+        predicted_ranks = []
 
-            for index in sample_indices:
-                new_data = df[['growth (30 days)', 'growth (60 days)', 'installsNumber']].iloc[[index]]
-                predicted_rank = LRM.predict(new_data)[0]
+        for index in sample_indices:
+            new_data = df[['growth (30 days)', 'growth (60 days)', 'installsNumber']].iloc[[index]]
+            predicted_rank = LRM.predict(new_data)[0]
 
-                titles.append(df['title'].iloc[index])
-                actual_ranks.append(df['rank'].iloc[index])
-                predicted_ranks.append(predicted_rank)
+            titles.append(df['title'].iloc[index])
+            actual_ranks.append(df['rank'].iloc[index])
+            predicted_ranks.append(predicted_rank)
 
-            plt.figure(figsize=(12, 6))
-            plt.plot(titles, actual_ranks, marker='o', label='Actual Rank')
-            plt.plot(titles, predicted_ranks, marker='x', label='Predicted Rank')
-            plt.xlabel('Title')
-            plt.ylabel('Rank')
-            plt.title('Actual vs. Predicted Ranks for 15 Random Titles')
-            plt.xticks(rotation=90)
-            plt.legend()
-            plt.tight_layout()
+        plt.figure(figsize=(12, 6))
+        plt.plot(titles, actual_ranks, marker='o', label='Actual Rank')
+        plt.plot(titles, predicted_ranks, marker='x', label='Predicted Rank')
+        plt.xlabel('Title')
+        plt.ylabel('Rank')
+        plt.title('Actual vs. Predicted Ranks for 15 Random Titles')
+        plt.xticks(rotation=90)
+        plt.legend()
+        plt.tight_layout()
             
         #Displayer
         st.pyplot(plt)
