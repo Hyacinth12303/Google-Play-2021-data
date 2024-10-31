@@ -107,21 +107,44 @@ if st.session_state.page_selection == "about":
     st.write("This application explores and analyzes a dataset of Android games available on the Google Play Store. The dataset contains information about various aspects of these games, including their category, installs, ratings, and growth over time.")
 
     st.markdown("**Data Column Description**")
-    st.write("Rank - The game's rank.")
-    st.write("Title - The game's name.")
-    st.write("Total Ratings - Amount of ratings of the game.")
-    st.write("Installs - How many downloads the game had reached.")
-    st.write("Average Rating - The game's average rating.")
-    st.write("Growth (30 days) - Relates to a game's total number of downloads and ratings in 30 days. How often the game is interacted by users.")
-    st.write("Growth (60 days) - Relates to a game's total number of downloads and ratings in 60 days. How often the game is interacted by users.")
-    st.write("Price - The game's price.")
-    st.write("Category - The game's category.")
-    st.write("5 star ratings - Number of 5 star ratings of the game.")
-    st.write("4 star ratings - Number of 4 star ratings of the game.")
-    st.write("3 star ratings - Number of 3 star ratings of the game.")
-    st.write("2 star ratings - Number of 2 star ratings of the game.")
-    st.write("1 star ratings - Number of 1 star ratings of the game.")
-    st.write("Paid - Determines whether the game is paid or free.")
+
+    data = {
+    "Column Name": [
+        "Rank",
+        "Title",
+        "Total Ratings",
+        "Installs",
+        "Average Rating",
+        "Growth (30 days)",
+        "Growth (60 days)",
+        "Price",
+        "Category",
+        "5 star ratings",
+        "4 star ratings",
+        "3 star ratings",
+        "2 star ratings",
+        "1 star ratings",
+        "Paid"
+    ],
+    "Description": [
+        "The game's rank in the list of games.",
+        "The name of the game.",
+        "The total number of ratings the game has received.",
+        "The total number of downloads the game has reached.",
+        "The average rating score of the game (typically on a scale of 1 to 5).",
+        "The change in the total number of downloads and ratings over the last 30 days, indicating user interaction.",
+        "The change in the total number of downloads and ratings over the last 60 days, indicating user interaction.",
+        "The price of the game (if it is paid).",
+        "The genre or category to which the game belongs (e.g., Action, Adventure, Puzzle).",
+        "The total number of 5-star ratings the game has received.",
+        "The total number of 4-star ratings the game has received.",
+        "The total number of 3-star ratings the game has received.",
+        "The total number of 2-star ratings the game has received.",
+        "The total number of 1-star ratings the game has received.",
+        "A boolean value indicating whether the game is a paid game (True) or free (False)."]
+    }
+    
+    
     
 
 
