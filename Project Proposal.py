@@ -1,6 +1,6 @@
 #######################
 # Import libraries
-!pip install statsmodels==0.13.5 #for ARIMA
+pip install statsmodels==0.13.5 #for ARIMA
 import streamlit as st
 
 import pandas as pd
@@ -18,7 +18,7 @@ from sklearn.metrics import mean_squared_error, r2_score, accuracy_score, classi
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 #For the values
-!pip install pmdarima==2.0.3
+pip install pmdarima==2.0.3
 from pmdarima import auto_arima
 
 from sklearn.ensemble import RandomForestRegressor
@@ -111,6 +111,7 @@ elif st.session_state.page_selection == "dataset":
     st.header("📊 Dataset")
 
     st.write("Google Playstore Dataset")
+    st.write("This dataset") 
     st.markdown('<a href="https://www.kaggle.com/datasets/dhruvildave/top-play-store-games" target="_blank">Kaggle link</a>', unsafe_allow_html=True)
 
 
@@ -195,6 +196,7 @@ elif st.session_state.page_selection == "eda":
 # Data Cleaning Page
 elif st.session_state.page_selection == "data_cleaning":
     st.header("🧼 Data Cleaning and Data Pre-processing")
+    
 
     # Your content for the DATA CLEANING / PREPROCESSING page goes here
     
