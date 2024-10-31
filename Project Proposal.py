@@ -105,6 +105,25 @@ if st.session_state.page_selection == "about":
     st.write("This application explores and analyzes a dataset of Android games available on the Google Play Store. 
     The dataset contains information about various aspects of these games, including their category, installs, ratings, and growth over time.")
 
+    st.markdown("**Data Column Description**")
+    st.write("Rank - The game's rank.")
+    st.write("Title - The game's name.")
+    st.write("Total Ratings - Amount of ratings of the game.")
+    st.write("Installs - How many downloads the game had reached.")
+    st.write("Average Rating - The game's average rating.")
+    st.write("Growth (30 days) - Relates to a game's total number of downloads and ratings in 30 days. How often the game is interacted by users.")
+    st.write("Growth (60 days) - Relates to a game's total number of downloads and ratings in 60 days. How often the game is interacted by users.")
+    st.write("Price - The game's price.")
+    st.write("Category - The game's category.")
+    st.write("5 star ratings - Number of 5 star ratings of the game.")
+    st.write("4 star ratings - Number of 4 star ratings of the game.")
+    st.write("3 star ratings - Number of 3 star ratings of the game.")
+    st.write("2 star ratings - Number of 2 star ratings of the game.")
+    st.write("1 star ratings - Number of 1 star ratings of the game.")
+    st.write("Paid - Determines whether the game is paid or free.")
+    
+
+
     # Your content for the ABOUT page goes here
 
     st.markdown("**Pages**")
@@ -124,7 +143,7 @@ elif st.session_state.page_selection == "dataset":
     st.header("📊 Dataset")
 
     st.write("Google Playstore Dataset")
-    st.write("This dataset is composed of top 100 games in Google Play Store.\n") 
+    st.write("This dataset is composed of top 100 games in Google Play Store, scraped and provided by Dhruvil Dave in kaggle.\n") 
     st.markdown('<a href="https://www.kaggle.com/datasets/dhruvildave/top-play-store-games" target="_blank">dataset link</a>', unsafe_allow_html=True)
 
 
@@ -208,24 +227,38 @@ elif st.session_state.page_selection == "eda":
 elif st.session_state.page_selection == "data_cleaning":
     st.header("🧼 Data Cleaning and Data Pre-processing")
 
-    st.write("The data contains 1730 rows and 15 columns that doesn'T contain any null values.\n")
-
+    st.write("The data contains 1730 rows and 15 columns that doesn't contain any null values.\n")
+    df.info()
 
     st.write("The installs column is composed of 'milestones' meaning it shows how many times the game was downloaded. It does not show the accurate number of installs of a game, rather it 
     depicts a milestone of how many times the game has been downloaded, thus it will be converted to represent it numerically to improve the models.")
-
-    #converting the object type in order to get the average numerical sense of it
-    #installs is aparently a milestone, I had to replace
+    st.write("This code will be used:")
+    
+    code = """
     label_encoder = LabelEncoder()
-
     install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']],
                                  handle_unknown='use_encoded_value', unknown_value=-1)
     df['installsNumber'] = label_encoder.fit_transform(df['installs'])
-    #######
+    """
 
-    
 
     # Your content for the DATA CLEANING / PREPROCESSING page goes here
+
+    # Training sets, here??
+
+    st.write("In this part, features and labels will be selected here")
+
+    #ARIMA model training
+    Adt = df[['growth (30 days)', 'growth (60 days)']]
+    y = Adt['growth (60 days)']
+    exog = Adt[['growth (30 days)']]
+
+    #split
+    train_y = y[:-30]
+    test_y = y[-30:]
+    train_exog = exog[:-30]
+    test_exog = exog[-30:]
+    
     
 
 # Machine Learning Page
