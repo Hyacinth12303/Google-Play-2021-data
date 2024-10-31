@@ -19,7 +19,8 @@ from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 #For the values
 
-from pmdarima import auto_arima
+#from pmdarima import auto_arima
+#I decide to cancel this and only snippet code of this(no implementation)
 
 from sklearn.ensemble import RandomForestRegressor
 
