@@ -108,7 +108,7 @@ if st.session_state.page_selection == "about":
 
     st.markdown("**Data Column Description**")
 
-    data = {
+    Coldesc = {
     "Column Name": [
         "Rank",
         "Title",
@@ -143,7 +143,8 @@ if st.session_state.page_selection == "about":
         "The total number of 1-star ratings the game has received.",
         "A boolean value indicating whether the game is a paid game (True) or free (False)."]
     }
-    
+    df = pd.DataFrame(Coldesc)
+    st.dataframe(df)
     
     
 
