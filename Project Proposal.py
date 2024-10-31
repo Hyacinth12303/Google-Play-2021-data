@@ -23,6 +23,7 @@ from pmdarima import auto_arima
 
 from sklearn.ensemble import RandomForestRegressor
 
+from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.metrics import accuracy_score, classification_report
@@ -91,7 +92,7 @@ with st.sidebar:
 # Data
 
 # Load data
-dataset = pd.read_csv("data/android-games.csv")
+df = pd.read_csv("data/android-games.csv")
 
 #######################
 
@@ -111,12 +112,11 @@ elif st.session_state.page_selection == "dataset":
     st.header("📊 Dataset")
 
     st.write("Google Playstore Dataset")
-    st.write("This dataset") 
-    st.markdown('<a href="https://www.kaggle.com/datasets/dhruvildave/top-play-store-games" target="_blank">Kaggle link</a>', unsafe_allow_html=True)
+    st.write("This dataset is composed of top 100 games in Google Play Store.\n") 
+    st.markdown('<a href="https://www.kaggle.com/datasets/dhruvildave/top-play-store-games" target="_blank">dataset link</a>', unsafe_allow_html=True)
 
 
     # Your content for your DATASET page goes here
-    df = pd.read_csv("data/android-games.csv")
     col = st.columns((3,3), gap='medium')
 
     with col[0]:
@@ -147,6 +147,7 @@ elif st.session_state.page_selection == "eda":
         pon()
         
     with col[1]:
+    
         st.markdown('#### Installs Distribution per Catgory')
         def ibc():
           plt.figure(figsize=(10, 5))
@@ -168,8 +169,6 @@ elif st.session_state.page_selection == "eda":
         plt.ylabel('Average Rating')
         plt.tight_layout()
         plt.show()
-
-        
    
     with col[2]:
         st.markdown('#### Games 30/60 Day Growth')
@@ -196,6 +195,22 @@ elif st.session_state.page_selection == "eda":
 # Data Cleaning Page
 elif st.session_state.page_selection == "data_cleaning":
     st.header("🧼 Data Cleaning and Data Pre-processing")
+
+    st.write("The data contains 1730 rows and 15 columns that doesn'T contain any null values.\n")
+
+
+    st.write("The installs column is composed of 'milestones' meaning it shows how many times the game was downloaded. It does not show the accurate number of installs of a game, rather it 
+    depicts a milestone of how many times the game has been downloaded, thus it will be converted to represent it numerically to improve the models.")
+
+    #converting the object type in order to get the average numerical sense of it
+    #installs is aparently a milestone, I had to replace
+    label_encoder = LabelEncoder()
+
+    install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']],
+                                 handle_unknown='use_encoded_value', unknown_value=-1)
+    df['installsNumber'] = label_encoder.fit_transform(df['installs'])
+    #######
+
     
 
     # Your content for the DATA CLEANING / PREPROCESSING page goes here
