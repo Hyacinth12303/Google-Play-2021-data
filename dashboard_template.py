@@ -57,13 +57,13 @@ with st.sidebar:
 
     # Project Members
     st.subheader("Members")
-    st.markdown("1. Elon Musk\n2. Jeff Bezos\n3. Sam Altman\n4. Mark Zuckerberg")
+    st.markdown("1. Joanna Hyacinth M. Reyes")
 
 #######################
 # Data
 
 # Load data
-dataset = pd.read_csv("data/IRIS.csv")
+dataset = pd.read_csv("data/android-games.csv")
 
 #######################
 
@@ -73,13 +73,15 @@ dataset = pd.read_csv("data/IRIS.csv")
 if st.session_state.page_selection == "about":
     st.header("ℹ️ About")
 
+    st.write("This application ")
+
     # Your content for the ABOUT page goes here
 
 # Dataset Page
 elif st.session_state.page_selection == "dataset":
     st.header("📊 Dataset")
 
-    st.write("IRIS Flower Dataset")
+    st.write("Google Playstore Dataset")
     st.write("")
 
     # Your content for your DATASET page goes here
