@@ -1,6 +1,7 @@
 #######################
 # Import libraries
 !pip install statsmodels==0.13.5 #for ARIMA
+import streamlit as st
 
 import pandas as pd
 import numpy as np
@@ -84,7 +85,7 @@ with st.sidebar:
 
     # Project Members
     st.subheader("Members")
-    st.markdown("1. Joanna Hyacinth M. Reyes")
+    st.markdown("1. Joanna Hyacinth M. Reyes") #I did all the graphs and datasets so what?
 
 #######################
 # Data
@@ -110,41 +111,103 @@ elif st.session_state.page_selection == "dataset":
     st.header("📊 Dataset")
 
     st.write("Google Playstore Dataset")
-    st.write("")
+    st.markdown('<a href="https://www.kaggle.com/datasets/dhruvildave/top-play-store-games" target="_blank">Kaggle link</a>', unsafe_allow_html=True)
+
 
     # Your content for your DATASET page goes here
     df = pd.read_csv("data/android-games.csv")
+    col = st.columns((3,3), gap='medium')
+
+    with col[0]:
+        df.dtypes
+        st.write("The data shows a series of float, int, object and a bool non-null dtypes.")
+    with col[1]:
+        df.info()
+    
 
 # EDA Page
 elif st.session_state.page_selection == "eda":
     st.header("📈 Exploratory Data Analysis (EDA)")
 
 
-    col = st.columns((1.5, 4.5, 2), gap='medium')
+    col = st.columns((1.5, 4.5, 3), gap='medium')
 
     # Your content for the EDA page goes here
 
     with col[0]:
         st.markdown('#### Graphs Column 1')
+        def pon():
+          paid_counts = df['paid'].value_counts()
 
-
-    with col[1]:
-        st.markdown('#### Graphs Column 2')
+          plt.figure(figsize=(3, 3))
+          plt.pie(paid_counts, labels=paid_counts.index, autopct='%1.1f%%', startangle=90)
+          plt.title('Proportion of Paid and Free Games')
+          plt.show()
+        pon()
         
+    with col[1]:
+        st.markdown('#### Installs Distribution per Catgory')
+        def ibc():
+          plt.figure(figsize=(10, 5))
+          sns.violinplot(x='category', y='installs', data=df)
+          plt.xticks(rotation=90)
+          plt.title('Distribution of Installs per Category')
+          plt.xlabel('Category')
+          plt.ylabel('Installs')
+          plt.tight_layout()
+          plt.show()
+        ibc()     
+        
+        st.markdown('#### Average Rating per Catgory')
+        plt.figure(figsize=(10, 6))
+        sns.barplot(x='category', y='average rating', data=df)
+        plt.xticks(rotation=90)
+        plt.title('Average Rating per Category')
+        plt.xlabel('Category')
+        plt.ylabel('Average Rating')
+        plt.tight_layout()
+        plt.show()
+
+        
+   
     with col[2]:
-        st.markdown('#### Graphs Column 3')
+        st.markdown('#### Games 30/60 Day Growth')
+
+        plt.figure(figsize=(10, 6))
+        sns.boxplot(x='category', y='growth (30 days)', data=df)
+        plt.xticks(rotation=90)
+        plt.title('30-Day Growth per Category Distribution')
+        plt.xlabel('Category')
+        plt.ylabel('30-Day Growth')
+        plt.tight_layout()
+        plt.show()
+
+        plt.figure(figsize=(10, 6))
+        sns.boxplot(x='category', y='growth (60 days)', data=df)
+        plt.xticks(rotation=90)
+        plt.title('60-Day Growth per Category Distribution')
+        plt.xlabel('Category')
+        plt.ylabel('60-Day Growth')
+        plt.tight_layout()
+        plt.show()
+  
 
 # Data Cleaning Page
 elif st.session_state.page_selection == "data_cleaning":
     st.header("🧼 Data Cleaning and Data Pre-processing")
 
     # Your content for the DATA CLEANING / PREPROCESSING page goes here
+    
 
 # Machine Learning Page
 elif st.session_state.page_selection == "machine_learning":
     st.header("🤖 Machine Learning")
 
     # Your content for the MACHINE LEARNING page goes here
+
+
+
+    
 
 # Prediction Page
 elif st.session_state.page_selection == "prediction":
