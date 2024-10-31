@@ -143,8 +143,8 @@ if st.session_state.page_selection == "about":
         "The total number of 1-star ratings the game has received.",
         "A boolean value indicating whether the game is a paid game (True) or free (False)."]
     }
-    df = pd.DataFrame(Coldesc)
-    st.dataframe(df)
+    cdd = pd.DataFrame(Coldesc)
+    st.dataframe(cdd)
     
     
 
@@ -167,13 +167,13 @@ elif st.session_state.page_selection == "dataset":
     st.write("Google Playstore Dataset")
     st.write("This dataset is composed of top 100 games in Google Play Store, scraped and provided by Dhruvil Dave in kaggle.\n") 
     st.markdown('<a href="https://www.kaggle.com/datasets/dhruvildave/top-play-store-games" target="_blank">dataset link</a>', unsafe_allow_html=True)
-
+    st.dataframe(df)
 
     # Your content for your DATASET page goes here
     col = st.columns((3,3), gap='medium')
 
     with col[0]:
-        df.dtypes
+        st.write(df.dtypes)
         st.write("The data shows a series of float, int, object and a bool non-null dtypes.")
     with col[1]:
         df.info()
