@@ -192,17 +192,7 @@ elif st.session_state.page_selection == "eda":
         
     with col[1]:
         
-        def ibc():
-            plt.figure(figsize=(10, 5))
-            sns.violinplot(x='category', y='installs', data=df)
-            plt.xticks(rotation=90)
-            plt.title('Installs Distribution per Category')
-            plt.xlabel('Category')
-            plt.ylabel('Installs')
-            st.pyplot(plt)
-        ibc()   
-
-    def par():
+        def par():
             plt.figure(figsize=(10, 6))
             sns.barplot(x='category', y='average rating', data=df)
             plt.xticks(rotation=90)
@@ -211,7 +201,27 @@ elif st.session_state.page_selection == "eda":
             plt.ylabel('Average Rating')
             plt.tight_layout()
             st.pyplot(plt)
-    par()
+        par()
+    st.markdown("---")
+
+    
+    col = st.columns((4.5), gap='small')
+    with col[0]:    
+        def ibc():
+                plt.figure(figsize=(10, 5))
+                sns.violinplot(x='category', y='installs', data=df)
+                plt.xticks(rotation=90)
+                plt.title('Installs Distribution per Category')
+                plt.xlabel('Category')
+                plt.ylabel('Installs')
+                st.pyplot(plt)
+        ibc()   
+        num_10M_titles = len(df[df['installs'] == '10.0 M'])
+        st.write(f"Number of titles with 10M installs: {num_10M_titles}")
+    with col[1]: 
+        st.write(f"Number of titles with 10M installs: {num_10M_titles}")        
+
+
 
     st.markdown("**30/60 day Growth per Category**")
     col = st.columns((3, 3), gap='medium')
