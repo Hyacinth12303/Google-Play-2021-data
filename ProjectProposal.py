@@ -188,14 +188,14 @@ elif st.session_state.page_selection == "eda":
         
     with col[1]:
     
-        st.markdown('**Installs Distribution per Catgory**')
+        
         def ibc():
             plt.figure(figsize=(10, 5))
             sns.violinplot(x='category', y='installs', data=df)
             plt.xticks(rotation=90)
             plt.xlabel('Category')
             plt.ylabel('Installs')
-            plt.tight_layout()
+            plt.title('**Installs Distribution per Catgory**')
             st.pyplot(plt)
         ibc()   
         
