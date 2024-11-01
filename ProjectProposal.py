@@ -164,7 +164,7 @@ elif st.session_state.page_selection == "dataset":
         st.write("Missing Values")
         st.write(df.isnull().sum()) 
     with col[2]:
-        st.write("Missing Values")
+        st.write("The data contains 1730 rows and 15 columns that doesn't contain any null values.\n")
         
     
 
@@ -180,12 +180,14 @@ elif st.session_state.page_selection == "eda":
     with col[0]:
         st.markdown('#### Graphs Column 1')
         def pon():
-          paid_counts = df['paid'].value_counts()
-
-          plt.figure(figsize=(3, 3))
-          plt.pie(paid_counts, labels=paid_counts.index, autopct='%1.1f%%', startangle=90)
-          plt.title('Proportion of Paid and Free Games')
-          plt.show()
+            paid_counts = df['paid'].value_counts()
+        
+            plt.figure(figsize=(3, 3))
+            plt.pie(paid_counts, labels=paid_counts.index, autopct='%1.1f%%', startangle=90)
+            plt.title('Proportion of Paid and Free Games')
+            st.pyplot(plt)
+        
+            st.title('Game Payment Proportions')
         pon()
         
     with col[1]:
@@ -238,8 +240,8 @@ elif st.session_state.page_selection == "eda":
 elif st.session_state.page_selection == "data_cleaning":
     st.header("🧼 Data Cleaning and Data Pre-processing")
 
-    st.write("The data contains 1730 rows and 15 columns that doesn't contain any null values.\n")
-    df.info()
+    
+
 
     st.write("The installs column is composed of 'milestones' meaning it shows how many times the game was downloaded. It does not show the accurate number of installs of a game, rather it depicts a milestone of how many times the game has been downloaded, thus it will be converted to represent it numerically to improve the models.")
     st.write("This code will be used:")
