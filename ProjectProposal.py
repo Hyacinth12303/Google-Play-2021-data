@@ -174,14 +174,18 @@ elif st.session_state.page_selection == "dataset":
     col = st.columns((1,4), gap='medium')
 
     with col[0]:
+        st.write("Data Types'")
         st.write(df.dtypes)
         
     with col[1]:
         st.write("Descriptive Statistics:")
         st.dataframe(df.describe())
-
     
-    st.write("The data shows a series of float, int, object and a bool non-null dtypes.")
+    st.write("Missing Values:")
+    st.write(df.isnull().sum())
+
+    st.write("Duplicate Rows:")
+    st.write(df.duplicated().sum())
         
     
 
