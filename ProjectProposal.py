@@ -226,8 +226,7 @@ elif st.session_state.page_selection == "eda":
             plt.title('Percentage of Downloads in Android Games')
             st.pyplot(plt)
         insc()
-        st.write(f"Basing from this graph, the games with the most downloads have reached 10M installs. 
-            There are a total of {num_10M_titles} games that has reached over 10M downloads.")
+        st.write(f"Basing from this graph, the games with the most downloads have reached 10M installs. There are a total of {num_10M_titles} games that has reached over 10M downloads.")
 
         
 
