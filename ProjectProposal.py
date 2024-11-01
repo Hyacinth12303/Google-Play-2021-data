@@ -209,7 +209,7 @@ elif st.session_state.page_selection == "eda":
             st.pyplot(plt)
         par()
 
-    st.markdown("30/60 day Growth per Category")
+    st.markdown("**30/60 day Growth per Category**")
     col = st.columns((3, 3), gap='medium')
     
     with col[0]:
