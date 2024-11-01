@@ -172,7 +172,7 @@ elif st.session_state.page_selection == "dataset":
 elif st.session_state.page_selection == "eda":
     st.header("📈 Exploratory Data Analysis (EDA)")
 
-    st.markdown("---")
+    st.write("")
     col = st.columns((2, 4.5), gap='small')
 
     # Your content for the EDA page goes here
@@ -219,10 +219,21 @@ elif st.session_state.page_selection == "eda":
         num_10M_titles = len(df[df['installs'] == '10.0 M'])
         st.write(f"Number of titles with 10M installs: {num_10M_titles}")
     with col[1]: 
-        st.write(f"Number of titles with 10M installs: {num_10M_titles}")        
+        def insc():
+            install_counts = df['installs'].value_counts()
+            plt.figure(figsize=(8, 8))  # Adjust figure size as needed
+            plt.pie(install_counts, labels=install_counts.index, autopct='%1.1f%%', startangle=90)
+            plt.title('Percentage of Downloads in Android Games')
+            st.pyplot(plt)
+        insc()
+        st.write(f"Basing from this graph, the games with the most downloads have reached 10M installs. 
+            There are a total of {num_10M_titles} games that has reached over 10M downloads.")
+
+        
 
 
-
+    st.markdown("---")
+    
     st.markdown("**30/60 day Growth per Category**")
     col = st.columns((3, 3), gap='medium')
     
