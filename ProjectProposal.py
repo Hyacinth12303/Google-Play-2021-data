@@ -186,7 +186,7 @@ elif st.session_state.page_selection == "eda":
             st.pyplot(plt)
         pon()
         
-        number_of_paid_games = df[df['Price'] > 0].shape[0]
+        number_of_paid_games = df['paid'].sum()
         # Display the number of paid games using st.write
         st.write(f'The number of paid games is: {number_of_paid_games}')
         
