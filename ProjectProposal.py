@@ -217,13 +217,13 @@ elif st.session_state.page_selection == "eda":
                 st.pyplot(plt)
         ibc()   
         num_10M_titles = len(df[df['installs'] == '10.0 M'])
-        st.write(f"Number of titles with 10M installs: {num_10M_titles}")
     with col[1]: 
         def insc():
             install_counts = df['installs'].value_counts()
             plt.figure(figsize=(8, 8))  # Adjust figure size as needed
             plt.pie(install_counts, labels=install_counts.index, autopct='%1.1f%%', startangle=90)
             plt.title('Percentage of Downloads in Android Games')
+            plt.legend(install_counts.index, title="Installs", loc="best") 
             st.pyplot(plt)
         insc()
         st.write(f"Basing from this graph, the games with the most downloads have reached 10M installs. There are a total of {num_10M_titles} games that has reached over 10M downloads.")
