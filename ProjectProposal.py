@@ -187,7 +187,7 @@ elif st.session_state.page_selection == "eda":
         pon()
         
         paid_games = df['paid'].sum()
-        total_games = df.shape['title']
+        total_games = df['title'].count()
         st.write(f"Out of {total_games} games, there are only {paid_games} paid games in the top 100.")
         
     with col[1]:
