@@ -174,7 +174,7 @@ elif st.session_state.page_selection == "dataset":
     st.dataframe(df.describe())
     
     # Your content for your DATASET page goes here
-    col = st.columns((1,1,3), gap='medium')
+    col = st.columns((1.5,1.5,3), gap='medium')
     
     with col[0]:
         st.write("Data Types")
