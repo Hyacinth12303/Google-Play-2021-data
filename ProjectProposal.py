@@ -178,12 +178,12 @@ elif st.session_state.page_selection == "dataset":
         st.dataframe(df.describe())
         st.write("")
     with col[1]:
+        st.write("Missing Values:")
+        st.write(df.isnull().sum())        
+    with col[2]:
         st.write("Data Types")
         st.write(df.dtypes)
-    with col[2]:
-        
-        st.write("Missing Values:")
-        st.write(df.isnull().sum())
+
 
         
     
