@@ -183,7 +183,7 @@ elif st.session_state.page_selection == "dataset":
         st.write("Missing Values")
         st.write(df.isnull().sum()) 
     with col[2]:
-
+        st.write("Missing Values")
         
     
 
