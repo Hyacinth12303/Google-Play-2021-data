@@ -185,6 +185,9 @@ elif st.session_state.page_selection == "eda":
             plt.pie(paid_counts, labels=paid_counts.index, autopct='%1.1f%%', startangle=90)
             st.pyplot(plt)
         pon()
+
+        num_paid_games = df['paid'].sum()  
+        st.write("There are {num_paid_games} games out of 1730 games")
         
     with col[1]:
         
@@ -198,7 +201,7 @@ elif st.session_state.page_selection == "eda":
             st.pyplot(plt)
         ibc()   
 
-        def par():
+    def par():
             plt.figure(figsize=(10, 6))
             sns.barplot(x='category', y='average rating', data=df)
             plt.xticks(rotation=90)
@@ -207,7 +210,7 @@ elif st.session_state.page_selection == "eda":
             plt.ylabel('Average Rating')
             plt.tight_layout()
             st.pyplot(plt)
-        par()
+    par()
 
     st.markdown("**30/60 day Growth per Category**")
     col = st.columns((3, 3), gap='medium')
