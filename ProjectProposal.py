@@ -205,7 +205,7 @@ elif st.session_state.page_selection == "eda":
     st.markdown("---")
 
     
-    col = st.columns((4.5), gap='small')
+    col = st.columns((4.5,2), gap='small')
     with col[0]:    
         def ibc():
                 plt.figure(figsize=(10, 5))
