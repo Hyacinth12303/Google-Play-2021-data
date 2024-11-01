@@ -178,7 +178,7 @@ elif st.session_state.page_selection == "eda":
     # Your content for the EDA page goes here
 
     with col[0]:
-        st.markdown('Proportion of Paid and Free Games')
+        st.markdown('**Proportion of Paid and Free Games**')
         def pon():
             paid_counts = df['paid'].value_counts()
             plt.figure(figsize=(3, 3))
@@ -188,17 +188,16 @@ elif st.session_state.page_selection == "eda":
         
     with col[1]:
     
-        st.markdown('#### Installs Distribution per Catgory')
+        st.markdown('**Installs Distribution per Catgory**')
         def ibc():
-          plt.figure(figsize=(10, 5))
-          sns.violinplot(x='category', y='installs', data=df)
-          plt.xticks(rotation=90)
-          plt.title('Distribution of Installs per Category')
-          plt.xlabel('Category')
-          plt.ylabel('Installs')
-          plt.tight_layout()
-          plt.show()
-        ibc()     
+            plt.figure(figsize=(10, 5))
+            sns.violinplot(x='category', y='installs', data=df)
+            plt.xticks(rotation=90)
+            plt.xlabel('Category')
+            plt.ylabel('Installs')
+            plt.tight_layout()
+            st.pyplot(plt)
+        ibc()   
         
         st.markdown('#### Average Rating per Catgory')
         plt.figure(figsize=(10, 6))
