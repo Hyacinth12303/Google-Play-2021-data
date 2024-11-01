@@ -185,9 +185,10 @@ elif st.session_state.page_selection == "eda":
             plt.pie(paid_counts, labels=paid_counts.index, autopct='%1.1f%%', startangle=90)
             st.pyplot(plt)
         pon()
-
-        num_paid_games = df['paid'].sum()  
-        st.write("There are {num_paid_games} games out of 1730 games")
+        
+        number_of_paid_games = df[df['Price'] > 0].shape[0]
+        # Display the number of paid games using st.write
+        st.write(f'The number of paid games is: {number_of_paid_games}')
         
     with col[1]:
         
