@@ -110,7 +110,7 @@ if st.session_state.page_selection == "about":
 
     with st.expander('**Data Column Description**', expanded=True):
         st.write('''
-                - 'orange[Rank]: The game's rank in the list of games.
+                - :orange[Rank]: The game's rank in the list of games.
                 - :orange[Title]: The name of the game.
                 - :orange[Total Ratings]: The total number of ratings the game has received.
                 - :orange[Installs]: The total number of downloads the game has reached.
