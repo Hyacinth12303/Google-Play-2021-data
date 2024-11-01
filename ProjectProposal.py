@@ -21,7 +21,7 @@ from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 #For the values
 
 #from pmdarima import auto_arima
-#I decide to cancel this and only snippet code of this(no implementation)
+#I decide to cancel this and only show the snippet code of this(no implementation)
 
 from sklearn.ensemble import RandomForestRegressor
 
@@ -60,7 +60,7 @@ def set_page_selection(page):
 with st.sidebar:
 
     # Sidebar Title (Change this with your project's title)
-    st.title('Google Playstore Top Games (2021)')
+    st.title('Google Playstore Top Games (2021) Data Analysis')
 
     # Page Button Navigation
     st.subheader("Pages")
@@ -165,8 +165,8 @@ elif st.session_state.page_selection == "dataset":
     st.header("📊 Dataset")
 
     st.write("**Google Playstore Dataset**")
-    st.write("This dataset is composed of top 100 games in Google Play Store, scraped and provided by Dhruvil Dave in kaggle.\n") 
-    st.markdown('<a href="https://www.kaggle.com/datasets/dhruvildave/top-play-store-games" target="_blank">dataset link</a>', unsafe_allow_html=True)
+    st.write("This dataset is composed of top 100 games in Google Play Store for each game category, scraped and provided by Dhruvil Dave in kaggle.\n") 
+    st.markdown('<a href="https://www.kaggle.com/datasets/dhruvildave/top-play-store-games" target="_blank">🔗 dataset link</a>', unsafe_allow_html=True)
     st.dataframe(df)
 
     # Your content for your DATASET page goes here
