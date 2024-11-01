@@ -178,16 +178,12 @@ elif st.session_state.page_selection == "eda":
     # Your content for the EDA page goes here
 
     with col[0]:
-        st.markdown('#### Graphs Column 1')
+        st.markdown('Proportion of Paid and Free Games')
         def pon():
             paid_counts = df['paid'].value_counts()
-        
             plt.figure(figsize=(3, 3))
             plt.pie(paid_counts, labels=paid_counts.index, autopct='%1.1f%%', startangle=90)
-            plt.title('Proportion of Paid and Free Games')
             st.pyplot(plt)
-        
-            st.title('Game Payment Proportions')
         pon()
         
     with col[1]:
