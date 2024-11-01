@@ -111,20 +111,20 @@ if st.session_state.page_selection == "about":
     with st.expander('**Data Column Description**', expanded=True):
         st.write('''
                 - :blue[Rank]: The game's rank in the list of games.
-                - :orange[Title]: The name of the game.
-                - :orange[Total Ratings]: The total number of ratings the game has received.
-                - :orange[Installs]: The total number of downloads the game has reached.
-                - :orange[Average Rating]: The average rating score of the game. (1-5 stars)
-                - :orange[Growth (30 days)]: The growth in the total number of downloads and ratings over the last 30 days
-                - :orange[Growth (60 days)]: The growth in the total number of downloads and ratings over the last 60 days
-                - :orange[Price]: The price of the game.
-                - :orange[Category]: The genre or category to which the game belongs (e.g., Action, Adventure, Puzzle).
-                - :orange[5 star ratings]: The total number of 5-star ratings the game has received.
-                - :orange[4 star ratings]: The total number of 5-star ratings the game has received.
-                - :orange[3 star ratings]: The total number of 5-star ratings the game has received.
-                - :orange[2 star ratings]: The total number of 5-star ratings the game has received.
-                - :orange[1 star ratings]: The total number of 5-star ratings the game has received.
-                - :orange[Paid]: A boolean value indicating whether the game is a paid game (True) or free (False).           
+                - :blue[Title]: The name of the game.
+                - :blue[Total Ratings]: The total number of ratings the game has received.
+                - :blue[Installs]: The total number of downloads the game has reached.
+                - :blue[Average Rating]: The average rating score of the game. (1-5 stars)
+                - :blue[Growth (30 days)]: The growth in the total number of downloads and ratings over the last 30 days
+                - :blue[Growth (60 days)]: The growth in the total number of downloads and ratings over the last 60 days
+                - :blue[Price]: The price of the game.
+                - :blue[Category]: The genre or category to which the game belongs (e.g., Action, Adventure, Puzzle).
+                - :blue[5 star ratings]: The total number of 5-star ratings the game has received.
+                - :blue[4 star ratings]: The total number of 5-star ratings the game has received.
+                - :blue[3 star ratings]: The total number of 5-star ratings the game has received.
+                - :blue[2 star ratings]: The total number of 5-star ratings the game has received.
+                - :blue[1 star ratings]: The total number of 5-star ratings the game has received.
+                - :blue[Paid]: A boolean value indicating whether the game is a paid game (True) or free (False).           
                 ''')
 
     #Growth is a metric formed by including increase in total number of installs and total number of ratings and finding the average percentage growth. 
