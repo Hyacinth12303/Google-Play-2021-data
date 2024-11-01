@@ -186,9 +186,9 @@ elif st.session_state.page_selection == "eda":
             st.pyplot(plt)
         pon()
         
-        number_of_paid_games = df['paid'].sum()
-        # Display the number of paid games using st.write
-        st.write(f'The number of paid games is: {number_of_paid_games}')
+        paid_games = df['paid'].sum()
+        total_games = df.shape['title']
+        st.write(f'Out of {total_games} games, there are only {paid_games}' paid games in the top rank)
         
     with col[1]:
         
