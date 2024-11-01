@@ -210,7 +210,7 @@ elif st.session_state.page_selection == "eda":
         plt.show()
    
     with col[2]:
-        st.markdown('#### Games 30/60 Day Growth')
+        st.markdown('**Games 30/60 Day Growth**')
 
         plt.figure(figsize=(10, 6))
         sns.boxplot(x='category', y='growth (30 days)', data=df)
