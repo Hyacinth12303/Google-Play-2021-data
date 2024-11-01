@@ -177,7 +177,7 @@ elif st.session_state.page_selection == "dataset":
         st.write(df.dtypes)
         
     with col[1]:
-        #st.write(df.items)
+        st.write("Descriptive Statistics:")
         st.dataframe(df.describe())
 
     
