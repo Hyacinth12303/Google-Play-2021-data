@@ -173,7 +173,7 @@ elif st.session_state.page_selection == "eda":
     st.header("📈 Exploratory Data Analysis (EDA)")
 
 
-    col = st.columns((1.5, 4.5, 3), gap='medium')
+    col = st.columns((1.5, 4.5), gap='medium')
 
     # Your content for the EDA page goes here
 
@@ -195,40 +195,25 @@ elif st.session_state.page_selection == "eda":
             plt.xticks(rotation=90)
             plt.xlabel('Category')
             plt.ylabel('Installs')
-            
             st.pyplot(plt)
         ibc()   
-        
-        st.markdown('#### Average Rating per Catgory')
+
+    
+    st.markdown('**Average Rating per Catgory**')
+
+    def par(dataframe):
         plt.figure(figsize=(10, 6))
-        sns.barplot(x='category', y='average rating', data=df)
+        sns.barplot(x='category', y='average rating', data=dataframe)
         plt.xticks(rotation=90)
         plt.title('Average Rating per Category')
         plt.xlabel('Category')
         plt.ylabel('Average Rating')
         plt.tight_layout()
-        plt.show()
-   
-    with col[2]:
-        st.markdown('**Games 30/60 Day Growth**')
+        st.pyplot(plt)
+    par()
+    
+        
 
-        plt.figure(figsize=(10, 6))
-        sns.boxplot(x='category', y='growth (30 days)', data=df)
-        plt.xticks(rotation=90)
-        plt.title('30-Day Growth per Category Distribution')
-        plt.xlabel('Category')
-        plt.ylabel('30-Day Growth')
-        plt.tight_layout()
-        plt.show()
-
-        plt.figure(figsize=(10, 6))
-        sns.boxplot(x='category', y='growth (60 days)', data=df)
-        plt.xticks(rotation=90)
-        plt.title('60-Day Growth per Category Distribution')
-        plt.xlabel('Category')
-        plt.ylabel('60-Day Growth')
-        plt.tight_layout()
-        plt.show()
   
 
 # Data Cleaning Page
