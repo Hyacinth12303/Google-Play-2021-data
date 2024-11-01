@@ -188,7 +188,7 @@ elif st.session_state.page_selection == "eda":
         
     with col[1]:
     
-        st.markdown("<div style='text-align: center;'>**Installs Distribution per Category**</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center;'><b>Installs Distribution per Category</b></div>", unsafe_allow_html=True)
         def ibc():
             plt.figure(figsize=(10, 5))
             sns.violinplot(x='category', y='installs', data=df)
