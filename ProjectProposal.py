@@ -187,27 +187,27 @@ elif st.session_state.page_selection == "eda":
         pon()
         
     with col[1]:
-    
-        st.markdown("<div style='text-align: center;'><b>Installs Distribution per Category</b></div>", unsafe_allow_html=True)
+        
         def ibc():
             plt.figure(figsize=(10, 5))
             sns.violinplot(x='category', y='installs', data=df)
             plt.xticks(rotation=90)
+            plt.title('Installs Distribution per Category')
             plt.xlabel('Category')
             plt.ylabel('Installs')
             st.pyplot(plt)
         ibc()   
 
-    def par():
-        plt.figure(figsize=(10, 6))
-        sns.barplot(x='category', y='average rating', data=df)
-        plt.xticks(rotation=90)
-        plt.title('Average Rating per Category')
-        plt.xlabel('Category')
-        plt.ylabel('Average Rating')
-        plt.tight_layout()
-        st.pyplot(plt)
-    par()
+        def par():
+            plt.figure(figsize=(10, 6))
+            sns.barplot(x='category', y='average rating', data=df)
+            plt.xticks(rotation=90)
+            plt.title('Average Rating per Category')
+            plt.xlabel('Category')
+            plt.ylabel('Average Rating')
+            plt.tight_layout()
+            st.pyplot(plt)
+        par()
 
     st.markdown("30/60 day Growth per Category")
     col = st.columns((3, 3), gap='medium')
