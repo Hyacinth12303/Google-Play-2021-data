@@ -201,7 +201,7 @@ elif st.session_state.page_selection == "eda":
     
     st.markdown('**Average Rating per Catgory**')
 
-    def par(dataframe):
+    def par():
         plt.figure(figsize=(10, 6))
         sns.barplot(x='category', y='average rating', data=dataframe)
         plt.xticks(rotation=90)
