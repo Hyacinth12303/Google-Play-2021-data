@@ -171,7 +171,7 @@ elif st.session_state.page_selection == "dataset":
     st.dataframe(df)
 
     # Your content for your DATASET page goes here
-    col = st.columns((3,1.2,1), gap='medium')
+    col = st.columns((3.5,1.2,1), gap='medium')
 
     with col[0]:
         st.write("Descriptive Statistics:")
