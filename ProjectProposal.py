@@ -145,8 +145,9 @@ if st.session_state.page_selection == "about":
     }
     cdd = pd.DataFrame(Coldesc)
     st.dataframe(cdd)
-    
-    
+
+    #Growth is a metric formed by including increase in total number of installs and total number of ratings and finding the average percentage growth. 
+    #It is calculated in comparison the day the metric is updated last 30 days and last 60 days. So it may highly safe to assume that it is over the same period of time.
 
 
     # Your content for the ABOUT page goes here
@@ -176,7 +177,10 @@ elif st.session_state.page_selection == "dataset":
         st.write(df.dtypes)
         
     with col[1]:
-        st.write(df.items)
+        #st.write(df.items)
+        st.dataframe(df.describe())
+
+    
     st.write("The data shows a series of float, int, object and a bool non-null dtypes.")
         
     
