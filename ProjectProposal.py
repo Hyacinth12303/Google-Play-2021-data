@@ -171,7 +171,7 @@ elif st.session_state.page_selection == "dataset":
     st.dataframe(df)
 
     # Your content for your DATASET page goes here
-    col = st.columns((1,4), gap='medium')
+    col = st.columns((1.5,3), gap='medium')
 
     with col[0]:
         st.write("Data Types")
@@ -185,9 +185,6 @@ elif st.session_state.page_selection == "dataset":
     st.write("Missing Values:")
     st.write(df.isnull().sum())
 
-    st.write("Duplicate Rows:")
-    ssss = df.duplicated().sum()
-    st.write('{ssss}')
         
     
 
