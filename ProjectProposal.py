@@ -170,19 +170,20 @@ elif st.session_state.page_selection == "dataset":
     st.markdown('<a href="https://www.kaggle.com/datasets/dhruvildave/top-play-store-games" target="_blank">🔗 dataset link</a>', unsafe_allow_html=True)
     st.dataframe(df)
 
-    # Your content for your DATASET page goes here
-    col = st.columns((3.5,0.5,1), gap='medium')
+    st.write("**Descriptive Statistics:**")
     st.dataframe(df.describe())
+    
+    # Your content for your DATASET page goes here
+    col = st.columns((1,1,3), gap='medium')
+    
     with col[0]:
-        st.write("Descriptive Statistics:")
-        st.dataframe(df.describe())
-        st.write("")
-    with col[1]:
         st.write("Data Types")
         st.write(df.dtypes)
-    with col[2]:
+    with col[1]:
         st.write("Missing Values")
         st.write(df.isnull().sum()) 
+    with col[2]:
+
         
     
 
