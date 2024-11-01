@@ -171,19 +171,19 @@ elif st.session_state.page_selection == "dataset":
     st.dataframe(df)
 
     # Your content for your DATASET page goes here
-    col = st.columns((1.5,3), gap='medium')
+    col = st.columns((3,1,1), gap='medium')
 
     with col[0]:
-        st.write("Data Types")
-        st.write(df.dtypes)
-        
-    with col[1]:
         st.write("Descriptive Statistics:")
         st.dataframe(df.describe())
         st.write("")
-    
-    st.write("Missing Values:")
-    st.write(df.isnull().sum())
+    with col[1]:
+        st.write("Data Types")
+        st.write(df.dtypes)
+    with col[2]:
+        
+        st.write("Missing Values:")
+        st.write(df.isnull().sum())
 
         
     
