@@ -106,45 +106,26 @@ if st.session_state.page_selection == "about":
 
     st.write("This application explores and analyzes a dataset of Android games available on the Google Play Store. The dataset contains information about various aspects of these games, including their category, installs, ratings, and growth over time.")
 
-    st.markdown("**Data Column Description**")
+    st.markdown("")
 
-    Coldesc = {
-    "Column Name": [
-        "Rank",
-        "Title",
-        "Total Ratings",
-        "Installs",
-        "Average Rating",
-        "Growth (30 days)",
-        "Growth (60 days)",
-        "Price",
-        "Category",
-        "5 star ratings",
-        "4 star ratings",
-        "3 star ratings",
-        "2 star ratings",
-        "1 star ratings",
-        "Paid"
-    ],
-    "Description": [
-        "The game's rank in the list of games.",
-        "The name of the game.",
-        "The total number of ratings the game has received.",
-        "The total number of downloads the game has reached.",
-        "The average rating score of the game. (1-5 stars)",
-        "The growth in the total number of downloads and ratings over the last 30 days.",
-        "The growth in the total number of downloads and ratings over the last 60 days.",
-        "The price of the game (if it is paid).",
-        "The genre or category to which the game belongs (e.g., Action, Adventure, Puzzle).",
-        "The total number of 5-star ratings the game has received.",
-        "The total number of 4-star ratings the game has received.",
-        "The total number of 3-star ratings the game has received.",
-        "The total number of 2-star ratings the game has received.",
-        "The total number of 1-star ratings the game has received.",
-        "A boolean value indicating whether the game is a paid game (True) or free (False)."]
-    }
-    cdd = pd.DataFrame(Coldesc)
-    st.dataframe(cdd)
+    with st.expander('**Data Column Description**', expanded=True):
+        st.write('''
+                - 'orange[Rank]: The game's rank in the list of games.
+                - :orange[Title]: The name of the game.
+                - :orange[Total Ratings]: The total number of ratings the game has received.
+                - :orange[Installs]: The total number of downloads the game has reached.
+                - :orange[Average Rating]: The average rating score of the game. (1-5 stars)
+                - :orange[Growth (30 days)]: The growth in the total number of downloads and ratings over the last 30 days
+                - :orange[Growth (60 days)]: The growth in the total number of downloads and ratings over the last 60 days
+                - :orange[Price]: The price of the game.
+                - :orange[Category]: The genre or category to which the game belongs (e.g., Action, Adventure, Puzzle).
+                - :orange[5 star ratings]: The total number of 5-star ratings the game has received.
+                - :orange[4 star ratings]: The total number of 5-star ratings the game has received.
+                - :orange[3 star ratings]: The total number of 5-star ratings the game has received.
+                - :orange[2 star ratings]: The total number of 5-star ratings the game has received.
+                - :orange[1 star ratings]: The total number of 5-star ratings the game has received.
+                - :orange[Paid]: A boolean value indicating whether the game is a paid game (True) or free (False).           
+                ''')
 
     #Growth is a metric formed by including increase in total number of installs and total number of ratings and finding the average percentage growth. 
     #It is calculated in comparison the day the metric is updated last 30 days and last 60 days. So it may highly safe to assume that it is over the same period of time.
