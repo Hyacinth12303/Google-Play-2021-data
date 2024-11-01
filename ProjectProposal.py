@@ -173,7 +173,7 @@ elif st.session_state.page_selection == "eda":
     st.header("📈 Exploratory Data Analysis (EDA)")
 
     st.markdown("---")
-    col = st.columns((1.5, 4.5), gap='medium')
+    col = st.columns((2, 4.5), gap='small')
 
     # Your content for the EDA page goes here
 
@@ -188,7 +188,7 @@ elif st.session_state.page_selection == "eda":
         
         paid_games = df['paid'].sum()
         total_games = df['title'].count()
-        st.write(f"Out of {total_games} games, there are only {paid_games} paid games in the top 100.")
+        st.write(f"- Out of {total_games} games, there are only {paid_games} paid games in the top 100.")
         
     with col[1]:
         
