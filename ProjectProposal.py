@@ -280,22 +280,22 @@ elif st.session_state.page_selection == "data_cleaning":
     label_encoder = LabelEncoder()
     install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
     df['installsNumber'] = label_encoder.fit_transform(df['installs'])
-    
-#I put training code here in this part.
 
+
+    st.markdown("---")
+#I put training code here in this part.
 
     #ARIMA model training
 
     st.header("Train-Test Split")
-
-    st.markdown('**For the ARIMA model**')
+    st.subheader("For the ARIMA model")
     st.write("The ARIMA model will be used in order to predict the growth over 2 months using the rank and the 1 month growth, thus the 30/60 days growth will only be used to predict the rank of the game.")
 
     code1 = """
     Adt = df[['growth (30 days)', 'growth (60 days)']]
     y = Adt['growth (60 days)']
     exog = Adt[['growth (30 days)']]
-
+    
     #split
     train_y = y[:-30]
     test_y = y[-30:]
@@ -313,25 +313,30 @@ elif st.session_state.page_selection == "data_cleaning":
     train_exog = exog[:-30]
     test_exog = exog[-30:]
     #Data Display
-    st.subheader("Train Exog (X_train):")
-    st.dataframe(train_exog)
-    st.subheader("Test Exog (X_test):")
-    st.dataframe(test_exog)
-    st.subheader("Train y (y_train):")
-    st.dataframe(train_y)
-    st.subheader("Test y (y_test):")
-    st.dataframe(test_y)
 
-      
-    st.markdown('**For the Linear Regression and Random Forest model**')
+    col = st.columns((3, 3), gap='medium')
+    
+    with col[0]:
+        st.write("Train Exog (X_train):")
+        st.dataframe(train_exog)
+        st.write("Test Exog (X_test):")
+        st.dataframe(test_exog)
+    with col[1]:
+        st.write("Train y (y_train):")
+        st.dataframe(train_y)
+        st.write("Test y (y_test):")
+        st.dataframe(test_y)
 
-    st.write("There will be 2 models used to determine the rank of the game, using different sets of features.\n The linear regression model will use the growth and the number of installs to predict the rank of the game. This will measure the rank basing on the activeness of the game or how often the users engage with the game.\n The random forest on the other hand shall use the average rating, installs, and growth(30 days) to determine the rank of the game. This code shall be used to train and split the data.")
+    st.subheader('For the Linear Regression and Random Forest model')
+    st.write("There will be 2 models used to determine the rank of the game, using different sets of features.\n The linear regression model will use the growth and the number of installs to predict the rank of the game. This will measure the rank basing on the activeness of the game or how often the users engage with the game.\n The random forest on the other hand shall use the average rating, installs, and growth(30 days) to determine the rank of the game. The code below shall be used to train and split the data.")
 
     code2 = """
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     """
     #Displaying 2 separate things could interfere with how the output for the prediction will turn out...
-    
+    st.code(code2, language='python')
+
+
     # Your content for the DATA CLEANING / PREPROCESSING page goes here
 
 # Machine Learning Page
