@@ -205,7 +205,7 @@ elif st.session_state.page_selection == "eda":
     st.markdown("---")
 
     
-    col = st.columns((4.5,2), gap='small')
+    col = st.columns((4.5,2.5), gap='small')
     with col[0]:    
         def ibc():
                 plt.figure(figsize=(10, 5))
@@ -233,10 +233,8 @@ elif st.session_state.page_selection == "eda":
         insc()
         st.write(f"Basing from this graph, the games with the most downloads have reached 10M installs. There are a total of {num_10M_titles} games that has reached over 10M downloads.")
 
-        
-
-
     st.markdown("---")
+
     
     st.markdown("**30/60 day Growth per Category**")
     col = st.columns((3, 3), gap='medium')
