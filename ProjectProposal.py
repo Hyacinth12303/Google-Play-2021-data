@@ -314,16 +314,18 @@ elif st.session_state.page_selection == "data_cleaning":
     test_exog = exog[-30:]
     #Data Display
 
-    col = st.columns((3, 3), gap='medium')
+    col = st.columns((1.5,1.5,1.5,1.5), gap='medium')
     
     with col[0]:
         st.write("Train Exog (X_train):")
         st.dataframe(train_exog)
+    with col[1]:
         st.write("Test Exog (X_test):")
         st.dataframe(test_exog)
-    with col[1]:
+    with col[2]:
         st.write("Train y (y_train):")
         st.dataframe(train_y)
+    with col[3]:    
         st.write("Test y (y_test):")
         st.dataframe(test_y)
 
