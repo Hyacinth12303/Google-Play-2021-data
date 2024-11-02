@@ -221,12 +221,13 @@ elif st.session_state.page_selection == "eda":
         def insc():
             install_counts = df['installs'].value_counts() 
             plt.figure(figsize=(8, 8)) 
+            plt.title('Percentage of Installs in Android Games')
             wedges, texts, autotexts = plt.pie(install_counts, autopct='%1.1f%%', startangle=90, 
                                               textprops=dict(color="w")) 
             plt.legend(wedges, 
                        [f"{install_count} ({percentage:.1f}%)" 
                         for install_count, percentage in zip(install_counts.index, install_counts / install_counts.sum() * 100)],
-                       title="Installs", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1)) # Place labels outside
+                       title="Installs", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1)) 
             plt.show()
             plt.tight_layout()
             st.pyplot(plt)
