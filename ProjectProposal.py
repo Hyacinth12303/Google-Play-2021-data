@@ -264,10 +264,7 @@ elif st.session_state.page_selection == "eda":
 # Data Cleaning Page
 elif st.session_state.page_selection == "data_cleaning":
     st.header("🧼 Data Cleaning and Data Pre-processing")
-
     
-
-
     st.write("The installs column is composed of 'milestones' meaning it shows how many times the game was downloaded. It does not show the accurate number of installs of a game, rather it depicts a milestone of how many times the game has been downloaded, thus it will be converted to represent it numerically to improve the models.")
     st.write("This code will be used:")
     
@@ -289,6 +286,8 @@ elif st.session_state.page_selection == "data_cleaning":
     st.write("In this part, features and labels will be selected here for different types of models")
 
     #ARIMA model training
+
+    st.markdown("###Train-Test Split")
 
     st.markdown('**For the ARIMA model**')
     st.write("The ARIMA model will be used in order to predict the growth over 2 months using the rank and the 1 month growth, thus the 30/60 days growth will only be used to predict the rank of the game.")
