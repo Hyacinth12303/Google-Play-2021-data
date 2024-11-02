@@ -258,7 +258,7 @@ elif st.session_state.page_selection == "eda":
         plt.title('60-Day Growth per Category Distribution')
         plt.xlabel('Category')
         plt.ylabel('60-Day Growth')
-        plt.tight_layout()
+        
         st.pyplot(plt)
 
   
