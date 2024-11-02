@@ -222,14 +222,13 @@ elif st.session_state.page_selection == "eda":
             install_counts = df['installs'].value_counts() 
             plt.figure(figsize=(8, 8)) 
             wedges, texts, autotexts = plt.pie(install_counts, autopct='%1.1f%%', startangle=90, 
-                                              textprops=dict(color="w"))  # Create pie chart and get elements
-
+                                              textprops=dict(color="w")) 
             plt.legend(wedges, 
                        [f"{install_count} ({percentage:.1f}%)" 
                         for install_count, percentage in zip(install_counts.index, install_counts / install_counts.sum() * 100)],
                        title="Installs", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1)) # Place labels outside
-            plt.title('Percentage of Installs in Android Games')
             plt.show()
+            plt.tight_layout()
             st.pyplot(plt)
         insc()
         st.write(f"Basing from this graph, the games with the most downloads have reached 10M installs. There are a total of {num_10M_titles} games that has reached over 10M downloads.")
