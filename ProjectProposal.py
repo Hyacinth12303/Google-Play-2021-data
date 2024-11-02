@@ -218,10 +218,11 @@ elif st.session_state.page_selection == "eda":
         ibc()   
         num_10M_titles = len(df[df['installs'] == '10.0 M'])
     with col[1]: 
+        st.write('**Percentage of Installs in Android Games**')
         def insc():
             install_counts = df['installs'].value_counts() 
             plt.figure(figsize=(8, 8)) 
-            plt.title('Percentage of Installs in Android Games')
+            
             wedges, texts, autotexts = plt.pie(install_counts, autopct='%1.1f%%', startangle=90, 
                                               textprops=dict(color="w")) 
             plt.legend(wedges, 
