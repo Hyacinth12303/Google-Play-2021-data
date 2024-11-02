@@ -283,11 +283,10 @@ elif st.session_state.page_selection == "data_cleaning":
     
 #I put training code here in this part.
 
-    st.write("In this part, features and labels will be selected here for different types of models")
 
     #ARIMA model training
 
-    st.markdown("##Train-Test Split")
+    st.header("Train-Test Split")
 
     st.markdown('**For the ARIMA model**')
     st.write("The ARIMA model will be used in order to predict the growth over 2 months using the rank and the 1 month growth, thus the 30/60 days growth will only be used to predict the rank of the game.")
@@ -303,24 +302,25 @@ elif st.session_state.page_selection == "data_cleaning":
     train_exog = exog[:-30]
     test_exog = exog[-30:]
     """
+    st.code(code1, language='python')
     
-    #executable one
+#executable one (ARIMA tts)
     Adt = df[['growth (30 days)', 'growth (60 days)']]
     y = Adt['growth (60 days)']
     exog = Adt[['growth (30 days)']]
-
-    #split
     train_y = y[:-30]
     test_y = y[-30:]
     train_exog = exog[:-30]
     test_exog = exog[-30:]
-
-    st.code(code1, language='python')
-    
-    print(f"Train Exog (X_train):\n\n{train_exog}\n\n"
-      f"Test Exog (X_test):\n\n{test_exog}\n\n"
-      f"Train y (y_train):\n\n{train_y}\n\n"
-      f"Test y (y_test):\n\n{test_y}")
+    #Data Display
+    st.subheader("Train Exog (X_train):")
+    st.dataframe(train_exog)
+    st.subheader("Test Exog (X_test):")
+    st.dataframe(test_exog)
+    st.subheader("Train y (y_train):")
+    st.dataframe(train_y)
+    st.subheader("Test y (y_test):")
+    st.dataframe(test_y)
 
       
     st.markdown('**For the Linear Regression and Random Forest model**')
