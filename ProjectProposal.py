@@ -287,7 +287,7 @@ elif st.session_state.page_selection == "data_cleaning":
 
     #ARIMA model training
 
-    st.markdown("###Train-Test Split")
+    st.markdown("##Train-Test Split")
 
     st.markdown('**For the ARIMA model**')
     st.write("The ARIMA model will be used in order to predict the growth over 2 months using the rank and the 1 month growth, thus the 30/60 days growth will only be used to predict the rank of the game.")
