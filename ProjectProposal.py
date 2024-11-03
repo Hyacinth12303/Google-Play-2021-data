@@ -467,8 +467,10 @@ elif st.session_state.page_selection == "prediction":
     # Your content for the PREDICTION page goes here
 #ARIMA
 
+    instLL()
+
     def ARIMAdf():
-        Adt = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]
+        Adt = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)']]
         Adt.head()
         y = Adt['growth (60 days)']
         exog = Adt[['growth (30 days)']]
