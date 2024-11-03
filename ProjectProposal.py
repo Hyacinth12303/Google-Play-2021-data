@@ -273,14 +273,7 @@ elif st.session_state.page_selection == "data_cleaning":
     install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
     df['installsNumber'] = label_encoder.fit_transform(df['installs'])
     """
-
     st.code(code0, language='python')
-    
-#labelling code
-    label_encoder = LabelEncoder()
-    install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
-    df['installsNumber'] = label_encoder.fit_transform(df['installs'])
-
 #Data Destroying
     st.subheader("Game Card and Game Word Category...")
 
@@ -414,32 +407,30 @@ elif st.session_state.page_selection == "machine_learning":
     st.write(f'Mean Squared Error: {mse:.2f}')
     st.write(f'Root Mean Squared Error: {rmse:.2f}')
 
-    
-
-
 #Feature Importance
     st.markdown("**Linear Regression model**")
 
     st.write("This utilizes linear regression to predict the rank of a game title based on its growth in 30 and 60 days and the number of installs. This model could be valuable for developers and marketers to gauge the potential success of a game based on its early performance indicators.")
+
+#label encoder
+    label_encoder = LabelEncoder()
+    install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
+    df['installsNumber'] = label_encoder.fit_transform(df['installs'])
     
     def featLR():
         X = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]  # Include all relevant features
         y = df['rank']
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        
         LRM = LinearRegression()  # Create an instance of the model
         LRM.fit(X_train, y_train)  # Train the model on the training data
-        
         importances = LRM.coef_  # Get coefficients as feature importances
         feature_names = X_train.columns  # Assuming X_train contains your feature names
-        
         plt.figure(figsize=(8, 6))
         sns.barplot(x=importances, y=feature_names)
         plt.title('Feature Importance in Linear Regression Model')
         plt.xlabel('Coefficient Value')  # Change x-axis label to 'Coefficient Value'
         plt.ylabel('Feature')
-        
-        # Use Streamlit to display the plot
+
         st.pyplot(plt)
         plt.clf() 
     featLR()
