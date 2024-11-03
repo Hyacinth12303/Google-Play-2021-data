@@ -300,7 +300,7 @@ elif st.session_state.page_selection == "data_cleaning":
     exsmlp = df.iloc[515:521]
     st.dataframe(exsmpl)
 
-        st.write("In order to eliminate this, the code below will be used to eliminate the data with similar name, rank, total ratings and number of installs")
+    st.write("In order to eliminate this, the code below will be used to eliminate the data with similar name, rank, total ratings and number of installs")
     code4 = """
     df = df.drop_duplicates(subset=['title', 'rank', 'total ratings', 'installs'], keep='first')
     """
