@@ -422,34 +422,25 @@ elif st.session_state.page_selection == "machine_learning":
 
     st.write("This utilizes linear regression to predict the rank of a game title based on its growth in 30 and 60 days and the number of installs. This model could be valuable for developers and marketers to gauge the potential success of a game based on its early performance indicators.")
     
-    X = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]  # Include all relevant features
-    y = df['rank']
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    
-    print(f"Mean Squared Error: {mse}")
-    print(f"R-squared: {r2}")
-
-    # Train the Linear Regression model
-    LRM = LinearRegression()  # Create an instance of the model
-    LRM.fit(X_train, y_train)  # Train the model on the training data
-
-    importances = LRM.coef_  
-    feature_names = X_train.columns  # Assuming X_train contains your feature names
-
-    plt.figure(figsize=(8, 6))
-    sns.barplot(x=importances, y=feature_names)
-    plt.title('Feature Importance in Linear Regression Model')
-    plt.xlabel('Coefficient Value')  # Change x-axis label to 'Coefficient Value'
-    plt.ylabel('Feature')
-    plt.show()
-
-    y_pred = LRM.predict(X_test)
-    mse = mean_squared_error(y_test, y_pred)
-    r2 = r2_score(y_test, y_pred)
-    
+    featLR():
+        X = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]  # Include all relevant features
+        y = df['rank']
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        LRM = LinearRegression()  # Create an instance of the model
+        LRM.fit(X_train, y_train)  # Train the model on the training data
+        importances = LRM.coef_  # Get coefficients as feature importances
+        feature_names = X_train.columns  # Assuming X_train contains your feature names
+        plt.figure(figsize=(8, 6))
+        sns.barplot(x=importances, y=feature_names)
+        plt.title('Feature Importance in Linear Regression Model')
+        plt.xlabel('Coefficient Value')  # Change x-axis label to 'Coefficient Value'
+        plt.ylabel('Feature')
+        st.pyplot(plt)
+    featLR()
     
     st.write("In this graph, it shows that the average rating and the number of installs gives negative influence while whether the game is paid or not shows the highest value, since free games tend to go on top in stores. This means that the amount of installs and how high the rating affects the output.")
+
+
 
     st.markdown("**Random Forest model**")
     st.write("This will utilize the Random Forest algorithm, an ensemble learning method, to predict the rank of a game title based on its average rating, number of installs, and 30-day growth. Random Forest combines multiple decision trees to create a robust and accurate prediction model. By considering these key performance indicators, this model aims to estimate a game's ranking on the Google Play Store. This information can be valuable for understanding the factors that influence game rankings and for making data-driven decisions to improve a game's visibility and discoverability.")
@@ -472,7 +463,7 @@ elif st.session_state.page_selection == "machine_learning":
     plt.title('Feature Importance in Random Forest Model')
     plt.xlabel('Importance Score')
     plt.ylabel('Feature')
-    plt.show()
+    st.pyplot(plt)
 
     st.write("Unlike the Linear Regression model, this graph shows that whether the game is free or not does not have much impact the model.　It shows that 60-day growth has the highest influence, followed by the number of installs and the 30-day growth. The average rating of the game also doesn't have much importance in determining the rank.")
     
