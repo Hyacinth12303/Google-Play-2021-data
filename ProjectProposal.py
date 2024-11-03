@@ -281,7 +281,45 @@ elif st.session_state.page_selection == "data_cleaning":
     install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
     df['installsNumber'] = label_encoder.fit_transform(df['installs'])
 
+#Data Destroying
+    st.subheader("Game Card and Game Word Category...")
 
+    def bruh():
+        plt.figure(figsize=(12, 6))
+        sns.countplot(x='category', data=df, order=df['category'].value_counts().index)
+        plt.xticks(rotation=90)
+        plt.title('Number of Titles per Category')
+        plt.xlabel('Category')
+        plt.ylabel('Number of Titles')
+        plt.tight_layout()
+        st.pyplot(plt)
+    bruh()
+
+    st.write("In the graph above, it showcased the number of titles in each category, which brought light to a problem: there are a total of 26 games in gamecard category and 4 in gameword when the dataset should only be displaying 100 games in each category.")
+    st.write("Here's one example:")
+    exsmlp = df.iloc[515:521]
+    st.dataframe(exsmpl)
+
+        st.write("In order to eliminate this, the code below will be used to eliminate the data with similar name, rank, total ratings and number of installs")
+    code4 = """
+    df = df.drop_duplicates(subset=['title', 'rank', 'total ratings', 'installs'], keep='first')
+    """
+    st.code(code4, language='python') 
+
+    st.write("Here's the graph after removing the duplicates:")
+
+    def bruh():
+        plt.figure(figsize=(12, 6))
+        sns.countplot(x='category', data=df, order=df['category'].value_counts().index)
+        plt.xticks(rotation=90)
+        plt.title('Number of Titles per Category no Dupes')
+        plt.xlabel('Category')
+        plt.ylabel('Number of Titles')
+        plt.tight_layout()
+        st.pyplot(plt)
+    bruh()
+    
+    
     st.markdown("---")
 #I put training code here in this part.
 
