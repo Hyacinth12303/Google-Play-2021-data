@@ -397,13 +397,8 @@ elif st.session_state.page_selection == "machine_learning":
     model_fit = Amodel.fit()  
     Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
     mse = mean_squared_error(test_y, Apredictions)
-
-    # Display the Mean Squared Error
     st.write(f'Mean Squared Error: {mse}')
-    # Calculate Root Mean Squared Error
     rmse = np.sqrt(mse)
-    
-    # Display the accuracy metrics
     st.write(f'Mean Squared Error: {mse:.2f}')
     st.write(f'Root Mean Squared Error: {rmse:.2f}')
 
@@ -413,84 +408,98 @@ elif st.session_state.page_selection == "machine_learning":
     st.write("This utilizes linear regression to predict the rank of a game title based on its growth in 30 and 60 days and the number of installs. This model could be valuable for developers and marketers to gauge the potential success of a game based on its early performance indicators.")
 
 #label encoder
-    label_encoder = LabelEncoder()
-    install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
-    df['installsNumber'] = label_encoder.fit_transform(df['installs'])
+    def instLL():
+        label_encoder = LabelEncoder()
+        install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
+        df['installsNumber'] = label_encoder.fit_transform(df['installs'])
+        col = st.columns((3,3), gap='medium')
+    instLL()
     
-    def featLR():
-        X = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]  # Include all relevant features
-        y = df['rank']
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        LRM = LinearRegression()  # Create an instance of the model
-        LRM.fit(X_train, y_train)  # Train the model on the training data
-        importances = LRM.coef_  # Get coefficients as feature importances
-        feature_names = X_train.columns  # Assuming X_train contains your feature names
-        plt.figure(figsize=(8, 6))
-        sns.barplot(x=importances, y=feature_names)
-        plt.title('Feature Importance in Linear Regression Model')
-        plt.xlabel('Coefficient Value')  # Change x-axis label to 'Coefficient Value'
-        plt.ylabel('Feature')
-
-        st.pyplot(plt)
-        plt.clf() 
-    featLR()
-    
-    st.write("In this graph, it shows that the average rating and the number of installs gives negative influence while whether the game is paid or not shows the highest value, since free games tend to go on top in stores. This means that the amount of installs and how high the rating affects the output.")
-
-
+    with col[0]:
+        def featLR():
+            X = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]  # Include all relevant features
+            y = df['rank']
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+            LRM = LinearRegression()  # Create an instance of the model
+            LRM.fit(X_train, y_train)  # Train the model on the training data
+            importances = LRM.coef_  # Get coefficients as feature importances
+            feature_names = X_train.columns  # Assuming X_train contains your feature names
+            plt.figure(figsize=(8, 6))
+            sns.barplot(x=importances, y=feature_names)
+            plt.title('Feature Importance in Linear Regression Model')
+            plt.xlabel('Coefficient Value')  # Change x-axis label to 'Coefficient Value'
+            plt.ylabel('Feature')
+            st.pyplot(plt)
+            plt.clf() 
+        featLR()
+    with col[1]:
+        st.write("In this graph, it shows that the average rating and the number of installs gave a negative influence while whether the game is paid or not shows the highest value, since free games tend to go on top in stores. This means that the amount of installs and how high the rating affects the output. However the growth gave no significant influence, thus will be removed.")
 
     st.markdown("**Random Forest model**")
     st.write("This will utilize the Random Forest algorithm, an ensemble learning method, to predict the rank of a game title based on its average rating, number of installs, and 30-day growth. Random Forest combines multiple decision trees to create a robust and accurate prediction model. By considering these key performance indicators, this model aims to estimate a game's ranking on the Google Play Store. This information can be valuable for understanding the factors that influence game rankings and for making data-driven decisions to improve a game's visibility and discoverability.")
     
 #RANDOM FOREST model code
 
-    X = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]  # Include all relevant features
-    y = df['rank']
+    col = st.columns((3,3), gap='medium')
     
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    rf_model = RandomForestRegressor(n_estimators=100, random_state=42)  # Adjust hyperparameters as needed
+    with col[0]:
+        X = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]  # Include all relevant features
+        y = df['rank']
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        rf_model = RandomForestRegressor(n_estimators=100, random_state=42)  # Adjust hyperparameters as needed
+        rf_model.fit(X_train, y_train)
+        importances = rf_model.feature_importances_
+        feature_names = X_train.columns  # Get feature names from X_train
+        
+        plt.figure(figsize=(8, 6))
+        sns.barplot(x=importances, y=feature_names)
+        plt.title('Feature Importance in Random Forest Model')
+        plt.xlabel('Importance Score')
+        plt.ylabel('Feature')
+        st.pyplot(plt)
+    with col[1]:
+        st.write("Unlike the Linear Regression model, this graph shows that whether the game is free or not does not have much impact the model, thus will be removed. It shows that 60-day growth is highly important, followed by the number of installs and the 30-day growth. The average rating of the game also doesn't have much importance in determining the rank.")
     
-    rf_model.fit(X_train, y_train)
-    importances = rf_model.feature_importances_
-    feature_names = X_train.columns  # Get feature names from X_train
-    
-    # Create a bar plot
-    plt.figure(figsize=(8, 6))
-    sns.barplot(x=importances, y=feature_names)
-    plt.title('Feature Importance in Random Forest Model')
-    plt.xlabel('Importance Score')
-    plt.ylabel('Feature')
-    st.pyplot(plt)
-
-    st.write("Unlike the Linear Regression model, this graph shows that whether the game is free or not does not have much impact the model.　It shows that 60-day growth has the highest influence, followed by the number of installs and the 30-day growth. The average rating of the game also doesn't have much importance in determining the rank.")
-    
-
-    y_pred = rf_model.predict(X_test)
-    
-    st.write("Evaluation:")
-    # Evaluate the model
-    mse = mean_squared_error(y_test, y_pred)
-    r2 = r2_score(y_test, y_pred)
-    print(f"Mean Squared Error: {mse}")
-    print(f"R-squared: {r2}")
-    y_pred_discrete = np.round(y_pred)
-    accuracy = accuracy_score(y_test, y_pred_discrete)  # Ensure y_pred is discrete
-    classification_rep = classification_report(y_test, y_pred_discrete)
-    print(f"Accuracy: {accuracy * 100:.2f}%") #insert skull emoji
-
-
-
 # Prediction Page
 elif st.session_state.page_selection == "prediction":
     st.header("👀 Prediction")
 
     # Your content for the PREDICTION page goes here
-    
+#ARIMA
+    def ARIMAdf():
+        Adt = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]
+        Adt.head()
+        y = Adt['growth (60 days)']
+        exog = Adt[['growth (30 days)']]
+        train_y = y[:-30]
+        test_y = y[-30:]
+        train_exog = exog[:-30]
+        test_exog = exog[-30:]
+        Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))
+        model_fit = Amodel.fit()
+        Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
+        mse = mean_squared_error(test_y, Apredictions)
+    ARIMA()
 
-    # Your content for the EDA page goes here
+    st.title("ARIMA Predictions for Random Samples")
+    sample_indices = random.sample(range(len(df)), 15)
+    sample_indices.sort()  # Sort indices for better visualization
+    sample_data = df.iloc[sample_indices]
+    
+    # Prepare the exogenous variable for predictions
+    prediction_range = range(sample_indices[0], sample_indices[0] + 15)
+    sample_exog = df.loc[prediction_range, ['growth (30 days)']]
+    
+    # Predict using the ARIMA model
+    # Ensure model_fit is already defined in your code
+    sample_predictions = model_fit.predict(
+        start=sample_indices[0], end=sample_indices[0] + 14, exog=sample_exog
+    )
+
+
 
     
-    st.markdown("###ARIMA model random game prediction visualizer")
+    st.subheader("ARIMA model random game 2-month growth prediction visualizer")
 
     def visualize_predictions():
         sample_indices = random.sample(range(len(df)), 15)
@@ -517,16 +526,18 @@ elif st.session_state.page_selection == "prediction":
         plt.xticks(rotation=90)
         plt.legend()
         plt.tight_layout()
-            
-        #Displayer
         st.pyplot(plt)
         
         # Create the button
         if st.button("Randomize!"):
             visualize_predictions()
 
+        
+        
+        instLL()
 
-    st.markdown("###Linear Regression model random game prediction visualizer")
+
+    st.subheader("Linear Regression model random game prediction visualizer")
     
     
     
