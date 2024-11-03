@@ -296,8 +296,9 @@ elif st.session_state.page_selection == "data_cleaning":
     bruh()
 
     st.write("In the graph above, it showcased the number of titles in each category, which brought light to a problem: there are a total of 26 games in gamecard category and 4 in gameword when the dataset should only be displaying 100 games in each category.")
+    
     st.write("Here's one example:")
-    exsmlp = df.iloc[515:521]
+    exsmlp = df.duplicated(subset=['title', 'rank', 'total ratings', 'installs'], keep=False)]
     st.dataframe(exsmpl)
 
     st.write("In order to eliminate this, the code below will be used to eliminate the data with similar name, rank, total ratings and number of installs")
