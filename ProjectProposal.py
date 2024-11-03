@@ -349,31 +349,6 @@ elif st.session_state.page_selection == "data_cleaning":
     """
     st.code(code1, language='python')
     
-#executable one (ARIMA tts)
-    Adt = df[['growth (30 days)', 'growth (60 days)']]
-    y = Adt['growth (60 days)']
-    exog = Adt[['growth (30 days)']]
-    train_y = y[:-30]
-    test_y = y[-30:]
-    train_exog = exog[:-30]
-    test_exog = exog[-30:]
-    #Data Display
-
-    col = st.columns((1.5,1.5,1.5,1.5), gap='medium')
-    
-    with col[0]:
-        st.write("Train Exog (X_train):")
-        st.dataframe(train_exog)
-    with col[1]:
-        st.write("Test Exog (X_test):")
-        st.dataframe(test_exog)
-    with col[2]:
-        st.write("Train y (y_train):")
-        st.dataframe(train_y)
-    with col[3]:    
-        st.write("Test y (y_test):")
-        st.dataframe(test_y)
-
     st.subheader('For the Linear Regression and Random Forest model')
     st.write("There will be 2 models used to determine the rank of the game, using different sets of features.\n The linear regression model will use the growth and the number of installs to predict the rank of the game. This will measure the rank basing on the activeness of the game or how often the users engage with the game.\n The random forest on the other hand shall use the average rating, installs, and growth(30 days) to determine the rank of the game. The code below shall be used to train and split the data.")
 
@@ -382,7 +357,6 @@ elif st.session_state.page_selection == "data_cleaning":
     """
     #Displaying 2 separate things could interfere with how the output for the prediction will turn out...
     st.code(code2, language='python')
-
 
     # Your content for the DATA CLEANING / PREPROCESSING page goes here
 
@@ -416,8 +390,16 @@ elif st.session_state.page_selection == "machine_learning":
         Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
         mse = mean_squared_error(test_y, Apredictions)
     """
+    
     st.code(code5, language='python')
 #ARIMA model code
+    Adt = df[['growth (30 days)', 'growth (60 days)']]
+    y = Adt['growth (60 days)']
+    exog = Adt[['growth (30 days)']]
+    train_y = y[:-30]
+    test_y = y[-30:]
+    train_exog = exog[:-30]
+    test_exog = exog[-30:]
     Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))  
     model_fit = Amodel.fit()  
     Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
