@@ -313,7 +313,7 @@ elif st.session_state.page_selection == "data_cleaning":
     st.code(code4, language='python') 
 
     st.write("Here's the graph after removing the duplicates:")
-
+    df = df.drop_duplicates(subset=['title', 'rank', 'total ratings', 'installs'], keep='first')
     def bruh():
         plt.figure(figsize=(12, 6))
         sns.countplot(x='category', data=df, order=df['category'].value_counts().index)
