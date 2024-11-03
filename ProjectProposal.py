@@ -413,7 +413,7 @@ elif st.session_state.page_selection == "machine_learning":
         install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
         df['installsNumber'] = label_encoder.fit_transform(df['installs'])
     instLL()
-
+    
     col = st.columns((3,3), gap='medium')
     with col[0]:
         def featLR():
@@ -466,6 +466,7 @@ elif st.session_state.page_selection == "prediction":
 
     # Your content for the PREDICTION page goes here
 #ARIMA
+
     def ARIMAdf():
         Adt = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]
         Adt.head()
@@ -478,29 +479,36 @@ elif st.session_state.page_selection == "prediction":
         Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))
         model_fit = Amodel.fit()
         Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
-        mse = mean_squared_error(test_y, Apredictions)
     ARIMAdf()
 
-    st.title("ARIMA Predictions for Random Samples")
+    st.subheader("ARIMA model random game 2-month growth prediction visualizer")
+
     sample_indices = random.sample(range(len(df)), 15)
     sample_indices.sort()  # Sort indices for better visualization
     sample_data = df.iloc[sample_indices]
     
-    # Prepare the exogenous variable for predictions
-    prediction_range = range(sample_indices[0], sample_indices[0] + 15)
+    prediction_range = range(sample_indices[0], sample_indices[0] + 15)  
     sample_exog = df.loc[prediction_range, ['growth (30 days)']]
     
     # Predict using the ARIMA model
-    # Ensure model_fit is already defined in your code
-    sample_predictions = model_fit.predict(
-        start=sample_indices[0], end=sample_indices[0] + 14, exog=sample_exog
-    )
+    sample_predictions = model_fit.predict(start=sample_indices[0], end=sample_indices[0] + 14, exog=sample_exog)
+    
+    # Plot actual vs. predicted values for the random sample
+    plt.figure(figsize=(12, 6))
+    plt.plot(sample_data['title'], sample_data['growth (60 days)'], label='Actual')
+    plt.plot(sample_data['title'].iloc[:15], sample_predictions, label='Predicted') #Limit plotting to predicted data
+    plt.xlabel('Title')
+    plt.ylabel('Growth (60 days)')
+    plt.title('ARIMA Predictions for 30 Random Titles')
+    plt.xticks(rotation=90)
+    plt.legend()
+    plt.tight_layout()
+    st.pyplot(plt)
+
 
 
 
     
-    st.subheader("ARIMA model random game 2-month growth prediction visualizer")
-
     def visualize_predictions():
         sample_indices = random.sample(range(len(df)), 15)
         sample_indices.sort()
@@ -510,7 +518,7 @@ elif st.session_state.page_selection == "prediction":
         predicted_ranks = []
 
         for index in sample_indices:
-            new_data = df[['growth (30 days)', 'growth (60 days)', 'installsNumber']].iloc[[index]]
+            new_data = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']].iloc[[index]]
             predicted_rank = LRM.predict(new_data)[0]
 
             titles.append(df['title'].iloc[index])
@@ -531,6 +539,13 @@ elif st.session_state.page_selection == "prediction":
         # Create the button
         if st.button("Randomize!"):
             visualize_predictions()
+
+
+
+
+
+
+
 
         
         
