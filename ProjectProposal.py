@@ -422,7 +422,7 @@ elif st.session_state.page_selection == "machine_learning":
 
     st.write("This utilizes linear regression to predict the rank of a game title based on its growth in 30 and 60 days and the number of installs. This model could be valuable for developers and marketers to gauge the potential success of a game based on its early performance indicators.")
     
-    featLR():
+    def featLR():
         X = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]  # Include all relevant features
         y = df['rank']
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
