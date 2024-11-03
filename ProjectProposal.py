@@ -395,7 +395,7 @@ elif st.session_state.page_selection == "machine_learning":
     st.markdown("**ARIMA model**")
     st.write("This employs the ARIMA (Autoregressive Integrated Moving Average) technique to forecast the 60-day growth of a game title based on its 30-day growth. ARIMA models are widely used for time series analysis and forecasting, leveraging past data patterns to predict future values. By utilizing historical growth data, this model aims to project the game's growth trajectory over the subsequent two months. This prediction can be valuable for understanding the long-term performance potential of a game and making informed decisions about marketing strategies and resource allocation.")
 
-    st.write("In order to choose the best order for arima, an auto arima is used to determine the best order for the dataset.")
+    st.write("In order to choose the best order for arima, auto arima is used to determine the best order for the dataset.")
     code3 = """
     model = auto_arima(train_y, exogenous=train_exog,
       start_p=0, start_q=0,
@@ -406,15 +406,42 @@ elif st.session_state.page_selection == "machine_learning":
       suppress_warnings=True,
       stepwise=True)
     """
+    st.code(code3, language='python')
+    
     st.write("The result regarding the most optimal order is 0/0/0, however 0/1/0 is used for the model since it depicted a more interesting prediction")
 
+    code5 = """
+        Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))  
+        model_fit = Amodel.fit()  
+        Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
+        mse = mean_squared_error(test_y, Apredictions)
+    """
+    st.code(code5, language='python')
 #ARIMA model code
-    Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))  #basing from previous cell, all 0s is the best, but other values can be used.. 0,1,0 gave interesting results tho
-    model_fit = Amodel.fit()
+    Adt = df[['growth (30 days)', 'growth (60 days)']]
+    y = Adt['growth (60 days)']
+    exog = Adt[['growth (30 days)']]
+    train_y = y[:-30]
+    test_y = y[-30:]
+    train_exog = exog[:-30]
+    test_exog = exog[-30:]
+    
+    Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))  
+    model_fit = Amodel.fit()  
     Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
     mse = mean_squared_error(test_y, Apredictions)
+
+    # Display the Mean Squared Error
+    st.write(f'Mean Squared Error: {mse}')
     
-    print(f'Mean Squared Error: {mse}')
+    # Optionally, display the predictions and actual values
+    st.subheader("Predictions vs Actual Values")
+    predictions_df = pd.DataFrame({
+        'Actual': test_y,
+        'Predicted': Apredictions
+    })
+    
+    st.line_chart(predictions_df)
 
 #Feature Importance
     st.markdown("**Linear Regression model**")
@@ -490,11 +517,6 @@ elif st.session_state.page_selection == "machine_learning":
     print(f"Accuracy: {accuracy * 100:.2f}%") #insert skull emoji
 
 
-
-
-    
-
-    
 
 # Prediction Page
 elif st.session_state.page_selection == "prediction":
