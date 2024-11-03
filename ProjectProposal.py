@@ -426,16 +426,22 @@ elif st.session_state.page_selection == "machine_learning":
         X = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]  # Include all relevant features
         y = df['rank']
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        
         LRM = LinearRegression()  # Create an instance of the model
         LRM.fit(X_train, y_train)  # Train the model on the training data
+        
         importances = LRM.coef_  # Get coefficients as feature importances
         feature_names = X_train.columns  # Assuming X_train contains your feature names
+        
         plt.figure(figsize=(8, 6))
         sns.barplot(x=importances, y=feature_names)
         plt.title('Feature Importance in Linear Regression Model')
         plt.xlabel('Coefficient Value')  # Change x-axis label to 'Coefficient Value'
         plt.ylabel('Feature')
+        
+        # Use Streamlit to display the plot
         st.pyplot(plt)
+        plt.clf() 
     featLR()
     
     st.write("In this graph, it shows that the average rating and the number of installs gives negative influence while whether the game is paid or not shows the highest value, since free games tend to go on top in stores. This means that the amount of installs and how high the rating affects the output.")
