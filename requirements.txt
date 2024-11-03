@@ -2,7 +2,7 @@ streamlit
 altair
 plotly
 statsmodels
-
+seaborn
 Cython
 pandas
 numpy
