@@ -412,9 +412,9 @@ elif st.session_state.page_selection == "machine_learning":
         label_encoder = LabelEncoder()
         install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
         df['installsNumber'] = label_encoder.fit_transform(df['installs'])
-        col = st.columns((3,3), gap='medium')
     instLL()
-    
+
+    col = st.columns((3,3), gap='medium')
     with col[0]:
         def featLR():
             X = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]  # Include all relevant features
