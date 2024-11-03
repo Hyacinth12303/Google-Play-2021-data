@@ -382,7 +382,7 @@ elif st.session_state.page_selection == "machine_learning":
     """
     st.code(code3, language='python')
     
-    st.write("The result regarding the most optimal order is 0/0/0, however 0/1/0 is used for the model since it depicted a more interesting prediction")
+    st.write("The result regarding the most optimal order is 0/0/0, however 0/1/0 is used for the model since it depicted a more interesting predictions and a lesser mse")
 
     code5 = """
         Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))  
@@ -407,15 +407,20 @@ elif st.session_state.page_selection == "machine_learning":
 
     # Display the Mean Squared Error
     st.write(f'Mean Squared Error: {mse}')
+    # Calculate Mean Absolute Error
+    mae = mean_absolute_error(test_y, Apredictions)
+    # Calculate Root Mean Squared Error
+    rmse = np.sqrt(mse)
+    # Calculate Mean Absolute Percentage Error
+    mape = np.mean(np.abs((test_y - Apredictions) / test_y)) * 100
     
-    # Optionally, display the predictions and actual values
-    st.subheader("Predictions vs Actual Values")
-    predictions_df = pd.DataFrame({
-        'Actual': test_y,
-        'Predicted': Apredictions
-    })
+    # Display the accuracy metrics
+    st.write(f'Mean Squared Error: {mse:.2f}')
+    st.write(f'Mean Absolute Error: {mae:.2f}')
+    st.write(f'Root Mean Squared Error: {rmse:.2f}')
+    st.write(f'Mean Absolute Percentage Error: {mape:.2f}%')
     
-    st.line_chart(predictions_df)
+
 
 #Feature Importance
     st.markdown("**Linear Regression model**")
