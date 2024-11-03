@@ -467,7 +467,9 @@ elif st.session_state.page_selection == "prediction":
     # Your content for the PREDICTION page goes here
 #ARIMA
 
-    instLL()
+    label_encoder = LabelEncoder()
+    install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
+    df['installsNumber'] = label_encoder.fit_transform(df['installs'])
 
     def ARIMAdf():
         Adt = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)']]
