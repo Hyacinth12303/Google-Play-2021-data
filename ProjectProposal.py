@@ -400,7 +400,7 @@ elif st.session_state.page_selection == "machine_learning":
     test_y = y[-30:]
     train_exog = exog[:-30]
     test_exog = exog[-30:]
-    Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))  
+    Amodel = ARIMA(train_y, exog=train_exog, order=(0, 0, 0))  
     model_fit = Amodel.fit()  
     Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
     mse = mean_squared_error(test_y, Apredictions)
