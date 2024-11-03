@@ -479,7 +479,7 @@ elif st.session_state.page_selection == "prediction":
         model_fit = Amodel.fit()
         Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
         mse = mean_squared_error(test_y, Apredictions)
-    ARIMA()
+    ARIMAdf()
 
     st.title("ARIMA Predictions for Random Samples")
     sample_indices = random.sample(range(len(df)), 15)
