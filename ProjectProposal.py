@@ -437,7 +437,7 @@ elif st.session_state.page_selection == "machine_learning":
         LRPred = LRM.predict(X_test)
         mse = mean_squared_error(y_test, LRPred)
         r2 = r2_score(y_test, LRPred)
-
+        st.write(f'Mean Squared Error: {mse}')
         st.write(f'Mean Squared Error: {mse:.2f}')
         st.write(f'Root-squared: {r2:.2f}')
     
@@ -465,7 +465,13 @@ elif st.session_state.page_selection == "machine_learning":
         st.pyplot(plt)
     with col[1]:
         st.write("Unlike the Linear Regression model, this graph shows that whether the game is free or not does not have much impact the model, thus will be removed. It shows that 60-day growth is highly important, followed by the number of installs and the 30-day growth. The average rating of the game also doesn't have much importance in determining the rank.")
-    
+        y_pred = rf_model.predict(X_test)
+        mse = mean_squared_error(y_test, y_pred)
+        r2 = r2_score(y_test, y_pred)
+        st.write(f'Mean Squared Error: {mse}')
+        st.write(f'Mean Squared Error: {mse:.2f}')
+        st.write(f'Root-squared: {r2:.2f}')        
+
 # Prediction Page
 elif st.session_state.page_selection == "prediction":
     st.header("👀 Prediction")
