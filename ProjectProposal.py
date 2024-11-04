@@ -504,10 +504,9 @@ elif st.session_state.page_selection == "prediction":
     prediction_range = range(sample_indices[0], sample_indices[0] + 15)  
     sample_exog = df.loc[prediction_range, ['growth (30 days)']]
     
-    # Predict using the ARIMA model
+    #Predict using the ARIMA model
     sample_predictions = model_fit.predict(start=sample_indices[0], end=sample_indices[0] + 14, exog=sample_exog)
     
-    # Plot actual vs. predicted values for the random sample
     plt.figure(figsize=(12, 6))
     plt.plot(sample_data['title'], sample_data['growth (60 days)'], label='Actual')
     plt.plot(sample_data['title'].iloc[:15], sample_predictions, label='Predicted') #Limit plotting to predicted data
