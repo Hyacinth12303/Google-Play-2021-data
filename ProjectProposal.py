@@ -493,6 +493,10 @@ elif st.session_state.page_selection == "prediction":
     
     Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))
     model_fit = Amodel.fit()
+
+        # Streamlit button to execute the model and plotting again
+    if st.button('Randomizer'):
+        ARIMAPred()
     
     # Function to run ARIMA predictions and plot results
     def ARIMAPred():
@@ -518,9 +522,7 @@ elif st.session_state.page_selection == "prediction":
         st.pyplot(plt)
     ARIMAPred()
     
-    # Streamlit button to execute the model and plotting again
-    if st.button('Randomizer'):
-        ARIMAPred()
+
 
 
 
