@@ -516,6 +516,7 @@ elif st.session_state.page_selection == "prediction":
         plt.legend()
         plt.tight_layout()
         st.pyplot(plt)
+    ARIMAPred()
     
     # Streamlit button to execute the model and plotting again
     if st.button('Randomizer'):
