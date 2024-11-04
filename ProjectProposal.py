@@ -517,11 +517,8 @@ elif st.session_state.page_selection == "prediction":
         plt.tight_layout()
         st.pyplot(plt)
     
-    # Call the function once on initial load
-    ARIMAPred()
-    
     # Streamlit button to execute the model and plotting again
-    if st.button('Run ARIMA Prediction'):
+    if st.button('Randomizer'):
         ARIMAPred()
 
 
