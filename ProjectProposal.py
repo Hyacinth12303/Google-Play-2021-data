@@ -489,41 +489,51 @@ elif st.session_state.page_selection == "prediction":
     y = Adt['growth (60 days)']
     exog = Adt[['growth (30 days)']]
     train_y = y[:-30]
-    test_y = y[-30:]
     train_exog = exog[:-30]
-    test_exog = exog[-30:]
+    
     Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))
     model_fit = Amodel.fit()
-    Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)    
-
+    
+    # Function to run ARIMA predictions and plot results
     def ARIMAPred():
         sample_indices = random.sample(range(len(df)), 15)
         sample_indices.sort()  # Sort indices for better visualization
         sample_data = df.iloc[sample_indices]
-        
-        prediction_range = range(sample_indices[0], sample_indices[0] + 15)  
+    
+        prediction_range = range(sample_indices[0], sample_indices[0] + 15)
         sample_exog = df.loc[prediction_range, ['growth (30 days)']]
-        
+    
         # Predict using the ARIMA model
         sample_predictions = model_fit.predict(start=sample_indices[0], end=sample_indices[0] + 14, exog=sample_exog)
-        
+    
         plt.figure(figsize=(12, 6))
-        plt.plot(sample_data['title'], sample_data['growth (60 days)'], label='Actual')
-        plt.plot(sample_data['title'].iloc[:15], sample_predictions, label='Predicted')  # Limit plotting to predicted data
+        plt.plot(sample_data['title'], sample_data['growth (60 days)'], label='Actual', marker='o')
+        plt.plot(sample_data['title'], sample_predictions, label='Predicted', marker='x')  # Use the same x-axis
         plt.xlabel('Title')
         plt.ylabel('Growth (60 days)')
-        plt.title('ARIMA Predictions for 30 Random Titles')
+        plt.title('ARIMA Predictions for 15 Random Titles')
         plt.xticks(rotation=90)
         plt.legend()
         plt.tight_layout()
         st.pyplot(plt)
-    ARIMApred()
-        
-    # Streamlit button to execute the model and plotting
+    
+    # Call the function once on initial load
+    ARIMAPred()
+    
+    # Streamlit button to execute the model and plotting again
     if st.button('Run ARIMA Prediction'):
-        ARIMApred()
+        ARIMAPred()
 
 
+
+
+
+
+
+
+
+
+    
     def visualize_predictions():
         sample_indices = random.sample(range(len(df)), 15)
         sample_indices.sort()
