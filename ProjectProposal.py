@@ -482,20 +482,18 @@ elif st.session_state.page_selection == "prediction":
     label_encoder = LabelEncoder()
     install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
     df['installsNumber'] = label_encoder.fit_transform(df['installs'])
-
-    def ARIMAdf():
-        Adt = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)']]
-        Adt.head()
-        y = Adt['growth (60 days)']
-        exog = Adt[['growth (30 days)']]
-        train_y = y[:-30]
-        test_y = y[-30:]
-        train_exog = exog[:-30]
-        test_exog = exog[-30:]
-        Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))
-        model_fit = Amodel.fit()
-        Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
-    ARIMAdf()
+    
+    Adt = df[['growth (30 days)', 'growth (60 days)']]
+    Adt.head()
+    y = Adt['growth (60 days)']
+    exog = Adt[['growth (30 days)']]
+    train_y = y[:-30]
+    test_y = y[-30:]
+    train_exog = exog[:-30]
+    test_exog = exog[-30:]
+    Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))
+    model_fit = Amodel.fit()
+    Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
 
     st.subheader("ARIMA model random game 2-month growth prediction visualizer")
 
