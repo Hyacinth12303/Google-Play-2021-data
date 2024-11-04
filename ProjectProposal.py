@@ -486,43 +486,43 @@ elif st.session_state.page_selection == "prediction":
 
     st.subheader("ARIMA model random game 2-month growth prediction visualizer")
     
-    if 'predictions' not in st.session_state:
-        st.session_state.predictions = None
+    Adt = df[['growth (30 days)', 'growth (60 days)']]
+    y = Adt['growth (60 days)']
+    exog = Adt[['growth (30 days)']]
+    train_y = y[:-30]
+    test_y = y[-30:]
+    train_exog = exog[:-30]
+    test_exog = exog[-30:]
     
-    # Function to run ARIMA model and generate predictions
-    def run_arima_model():
-        Adt = df[['growth (30 days)', 'growth (60 days)']]
-        y = Adt['growth (60 days)']
-        exog = Adt[['growth (30 days)']]
-        train_y = y[:-30]
-        test_y = y[-30:]
-        train_exog = exog[:-30]
-        test_exog = exog[-30:]
+    # Streamlit button to execute the model and plotting
+    if st.button('Run ARIMA Prediction'):
+        Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))
+        model_fit = Amodel.fit()
+        Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
     
-        # Fit ARIMA model
-        model = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))
-        model_fit = model.fit()
+        st.subheader("ARIMA model random game 2-month growth prediction visualizer")
+    
+        sample_indices = random.sample(range(len(df)), 15)
+        sample_indices.sort()  # Sort indices for better visualization
+        sample_data = df.iloc[sample_indices]
         
-        # Generate predictions
-        predictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
-        return predictions
-    
-    # Button to execute the prediction
-    if st.button('Show Predictions'):
-        st.session_state.predictions = run_arima_model()
-    
-    # Display predictions if available
-    if st.session_state.predictions is not None:
-        st.subheader("Predictions for Growth (60 days)")
-        st.write(st.session_state.predictions)
-    
-        # Optional: Plotting the predictions
-        plt.figure(figsize=(10, 5))
-        plt.plot(st.session_state.predictions, label='Predicted Growth (60 days)', color='orange')
-        plt.title('ARIMA Predictions')
-        plt.xlabel('Index')
+        prediction_range = range(sample_indices[0], sample_indices[0] + 15)  
+        sample_exog = df.loc[prediction_range, ['growth (30 days)']]
+        
+        # Predict using the ARIMA model
+        sample_predictions = model_fit.predict(start=sample_indices[0], end=sample_indices[0] + 14, exog=sample_exog)
+        
+        plt.figure(figsize=(12, 6))
+        plt.plot(sample_data['title'], sample_data['growth (60 days)'], label='Actual')
+        plt.plot(sample_data['title'].iloc[:15], sample_predictions, label='Predicted')  # Limit plotting to predicted data
+        plt.xlabel('Title')
         plt.ylabel('Growth (60 days)')
+        plt.title('ARIMA Predictions for 30 Random Titles')
+        plt.xticks(rotation=90)
         plt.legend()
+        plt.tight_layout()
+        
+        # Display the plot in Streamlit
         st.pyplot(plt)
 
 
