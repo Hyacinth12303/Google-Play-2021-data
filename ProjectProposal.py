@@ -433,8 +433,14 @@ elif st.session_state.page_selection == "machine_learning":
             plt.clf() 
         featLR()
     with col[1]:
-        st.write("In this graph, it shows that the average rating and the number of installs gave a negative influence while whether the game is paid or not shows the highest value, since free games tend to go on top in stores. This means that the amount of installs and how high the rating affects the output. However the growth gave no significant influence, thus will be removed.")
+        st.write("This graph shows that the average rating and the number of installs gave a negative influence while whether the game is paid or not shows the highest value, since free games tend to go on top in stores. This means that the amount of installs and how high the rating affects the output. However the growth gave no significant influence, thus will be removed.")
+        LRPred = LRM.predict(X_test)
+        mse = mean_squared_error(y_test, LRPred)
+        r2 = r2_score(y_test, LRPred)
 
+        st.write(f'Mean Squared Error: {mse:.2f}')
+        st.write(f'Root-squared: {r2:.2f}')
+    
     st.markdown("**Random Forest model**")
     st.write("This will utilize the Random Forest algorithm, an ensemble learning method, to predict the rank of a game title based on its average rating, number of installs, and 30-day growth. Random Forest combines multiple decision trees to create a robust and accurate prediction model. By considering these key performance indicators, this model aims to estimate a game's ranking on the Google Play Store. This information can be valuable for understanding the factors that influence game rankings and for making data-driven decisions to improve a game's visibility and discoverability.")
     
