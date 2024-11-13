@@ -668,29 +668,68 @@ elif st.session_state.page_selection == "prediction":
     
     
     if st.button("Random Game"):
-        # Randomly select a game for prediction
-        random_game = df.sample(1)
-    
-        # Get the game's features and scale them using the same scaler
-        game_features = random_game[['5 star ratings', '1 star ratings']]
-        game_features_scaled = scaler.transform(game_features)
-    
-        # Predict the average rating
-        predicted_rating = rf_model.predict(game_features_scaled)[0]
-    
-        # Display the results
-        st.subheader("Game Details and Rating Prediction")
-        st.write(f"**Game Title**: {random_game['title'].values[0]}")
-        st.write(f"**Category**: {random_game['category'].values[0]}")
-        st.write(f"**Installs**: {random_game['installs'].values[0]}")
-        st.write(f"**Rank**: {random_game['rank'].values[0]}")
-        st.write(f"**Actual Average Rating**: {random_game['average rating'].values[0]}")
-        st.write(f"**Predicted Average Rating**: {predicted_rating:.2f}")
+        col = st.columns((1, 1, 1), gap='medium')
+        with col[0]:
+            # Randomly select a game for prediction
+            random_game = df.sample(1)
+        
+            # Get the game's features and scale them using the same scaler
+            game_features = random_game[['5 star ratings', '1 star ratings']]
+            game_features_scaled = scaler.transform(game_features)
+        
+            # Predict the average rating
+            predicted_rating = rf_model.predict(game_features_scaled)[0]
+        
+            # Display the results
+            st.subheader("Game Details and Rating Prediction")
+            st.write(f"**Game Title**: {random_game['title'].values[0]}")
+            st.write(f"**Category**: {random_game['category'].values[0]}")
+            st.write(f"**Installs**: {random_game['installs'].values[0]}")
+            st.write(f"**Rank**: {random_game['rank'].values[0]}")
+            st.write(f"**Actual Average Rating**: {random_game['average rating'].values[0]}")
+            st.write(f"**Predicted Average Rating**: {predicted_rating:.2f}")
+        with col[1]:
+            # Randomly select a game for prediction
+            random_game = df.sample(1)
+        
+            # Get the game's features and scale them using the same scaler
+            game_features = random_game[['5 star ratings', '1 star ratings']]
+            game_features_scaled = scaler.transform(game_features)
+        
+            # Predict the average rating
+            predicted_rating = rf_model.predict(game_features_scaled)[0]
+        
+            # Display the results
+            st.subheader("Game Details and Rating Prediction")
+            st.write(f"**Game Title**: {random_game['title'].values[0]}")
+            st.write(f"**Category**: {random_game['category'].values[0]}")
+            st.write(f"**Installs**: {random_game['installs'].values[0]}")
+            st.write(f"**Rank**: {random_game['rank'].values[0]}")
+            st.write(f"**Actual Average Rating**: {random_game['average rating'].values[0]}")
+            st.write(f"**Predicted Average Rating**: {predicted_rating:.2f}")
+        with col[2]:
+            # Randomly select a game for prediction
+            random_game = df.sample(1)
+        
+            # Get the game's features and scale them using the same scaler
+            game_features = random_game[['5 star ratings', '1 star ratings']]
+            game_features_scaled = scaler.transform(game_features)
+        
+            # Predict the average rating
+            predicted_rating = rf_model.predict(game_features_scaled)[0]
+        
+            # Display the results
+            st.subheader("Game Details and Rating Prediction")
+            st.write(f"**Game Title**: {random_game['title'].values[0]}")
+            st.write(f"**Category**: {random_game['category'].values[0]}")
+            st.write(f"**Installs**: {random_game['installs'].values[0]}")
+            st.write(f"**Rank**: {random_game['rank'].values[0]}")
+            st.write(f"**Actual Average Rating**: {random_game['average rating'].values[0]}")
+            st.write(f"**Predicted Average Rating**: {predicted_rating:.2f}")
 
 
-
     
-    #col = st.columns((1.5, 4.5, 3), gap='medium')
+    #col = st.columns((1, 1, 1), gap='medium')
     #with col[0]:
     #with col[1]:
     
