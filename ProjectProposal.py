@@ -425,7 +425,6 @@ elif st.session_state.page_selection == "data_cleaning":
     code2 = """
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     """
-  
     st.code(code2, language='python')
 
     category_order = [
@@ -446,8 +445,6 @@ elif st.session_state.page_selection == "data_cleaning":
     duplicate_ranks = df[df.duplicated(subset=['category', 'rank', 'installs', 'total ratings'], keep=False)]
     
     if st.checkbox("Show Feature Importance Graph"):
-
-        # 1. Set up features and target
         X = df[['total ratings', 'installsNumber', 'average rating', 'growth (30 days)', 'growth (60 days)', 'price', 'categoryLabel', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
         y = df['rank']
         
@@ -556,12 +553,24 @@ elif st.session_state.page_selection == "machine_learning":
         tree_model.fit(X_train, y_train)
     """
     st.code(code333, language='python')
-
+    
+    category_order = [
+        'GAME ACTION', 'GAME ADVENTURE', 'GAME ARCADE', 'GAME BOARD',
+           'GAME CARD', 'GAME CASINO', 'GAME CASUAL', 'GAME EDUCATIONAL',
+           'GAME MUSIC', 'GAME PUZZLE', 'GAME RACING', 'GAME ROLE PLAYING',
+           'GAME SIMULATION', 'GAME SPORTS', 'GAME STRATEGY', 'GAME TRIVIA',
+           'GAME WORD'
+    ]
+    category_encoder = LabelEncoder()
+    df['categoryLabel'] = category_encoder.fit_transform(df['category'])
+    
+    install_ranges = ['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']
+    install_encoder = OrdinalEncoder(categories=[install_ranges], handle_unknown='use_encoded_value', unknown_value=-1)
+    df['installsNumber'] = install_encoder.fit_transform(df[['installs']])
+    
+    duplicate_ranks = df[df.duplicated(subset=['category', 'rank', 'installs', 'total ratings'], keep=False)]
+    
     if st.checkbox("Show Feature Importance Graph"):
-        
-        # Encode categorical features
-        le = LabelEncoder()
-        df['categoryLabel'] = le.fit_transform(df['categoryLabel'])
         
         # 1. Set up features and target
         X = df[['total ratings', '5 star ratings', 'categoryLabel']]
