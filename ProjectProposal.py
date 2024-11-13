@@ -369,41 +369,39 @@ elif st.session_state.page_selection == "data_cleaning":
     """
     st.code(code1, language='python')
 
-    if st.checkbox("Show Data"):
-        st.write(df.head())
-    
-    # Define features and target variable
-    X = df[['5 star ratings', '1 star ratings']]
-    y = df['average rating']
-    
-    # Split data into train and test sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    
-    # Scale features
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-    
-    # Initialize and train the Random Forest Regressor
-    rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
-    rf_model.fit(X_train_scaled, y_train)
-    
-    # Evaluate feature importance
-    feature_importances = rf_model.feature_importances_
-    features = X.columns
-    
-    # Plot feature importances
-    fig, ax = plt.subplots(figsize=(10, 6))
-    indices = feature_importances.argsort()[::-1]  # Sort features by importance
-    ax.barh(range(len(indices)), feature_importances[indices], color='skyblue')
-    ax.set_yticks(range(len(indices)))
-    ax.set_yticklabels([features[i] for i in indices])
-    ax.set_xlabel("Feature Importance")
-    ax.set_ylabel("Feature")
-    ax.set_title("Feature Importance for Predicting Average Rating")
-    
-    # Show plot in Streamlit
-    st.pyplot(fig)
+    if st.checkbox("Show graph"):
+        # Define features and target variable
+        X = df[['5 star ratings', '1 star ratings']]
+        y = df['average rating']
+        
+        # Split data into train and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        
+        # Scale features
+        scaler = StandardScaler()
+        X_train_scaled = scaler.fit_transform(X_train)
+        X_test_scaled = scaler.transform(X_test)
+        
+        # Initialize and train the Random Forest Regressor
+        rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+        rf_model.fit(X_train_scaled, y_train)
+        
+        # Evaluate feature importance
+        feature_importances = rf_model.feature_importances_
+        features = X.columns
+        
+        # Plot feature importances
+        fig, ax = plt.subplots(figsize=(10, 6))
+        indices = feature_importances.argsort()[::-1]  # Sort features by importance
+        ax.barh(range(len(indices)), feature_importances[indices], color='skyblue')
+        ax.set_yticks(range(len(indices)))
+        ax.set_yticklabels([features[i] for i in indices])
+        ax.set_xlabel("Feature Importance")
+        ax.set_ylabel("Feature")
+        ax.set_title("Feature Importance for Predicting Average Rating")
+        
+        # Show plot in Streamlit
+        st.pyplot(fig)
 
 
     
@@ -414,10 +412,39 @@ elif st.session_state.page_selection == "data_cleaning":
     code2 = """
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     """
-    #Displaying 2 separate things could interfere with how the output for the prediction will turn out...
+  
     st.code(code2, language='python')
 
 
+    if st.checkbox("Show Graph"):
+        
+        # Encode categorical features
+        le = LabelEncoder()
+        df['categoryLabel'] = le.fit_transform(df['categoryLabel'])
+        
+        # 1. Set up features and target
+        X = df[['total ratings', '5 star ratings', 'categoryLabel']]
+        y = df['rank']
+        
+        # 2. Split data into train and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        
+        # 3. Train the DecisionTreeRegressor
+        tree_model = DecisionTreeRegressor(random_state=42)
+        tree_model.fit(X_train, y_train)
+        
+        # 4. Feature Importance Plot
+        feature_importances = tree_model.feature_importances_
+        
+        fig, ax = plt.subplots(figsize=(10, 6))
+        ax.barh(X.columns, feature_importances, color="skyblue")
+        ax.set_xlabel("Importance")
+        ax.set_ylabel("Feature")
+        ax.set_title("Feature Importance in Decision Tree Model")
+        plt.tight_layout()
+        
+        # Show plot in Streamlit
+        st.pyplot(fig)
 
     # Your content for the DATA CLEANING / PREPROCESSING page goes here
 
