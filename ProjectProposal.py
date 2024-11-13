@@ -642,16 +642,12 @@ elif st.session_state.page_selection == "prediction":
     X = df[['5 star ratings', '1 star ratings']] #These 2 shows utmost importance, exceeding 0.1
     y = df['average rating']  # Target variable
     
-    
-    # Split data into train and test sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
-    # Scale features
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
     
-    # Initialize and train the Random Forest Regressor
     rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
     rf_model.fit(X_train_scaled, y_train)
     
@@ -660,23 +656,16 @@ elif st.session_state.page_selection == "prediction":
 
     st.title("Random Game Rating Prediction")
     st.write("This will predict the average rating of a random game based on its 5-star and 1-star ratings.")
-    
-    df['predicted_rank'] = tree_model.predict(X)
-    df_sorted = df.sort_values(by='predicted_rank', ascending=True)  
-    df['predicted_rank_ordinal'] = df['predicted_rank'].round().astype(int)
-    
-    y_pred = tree_model.predict(X_test)
-    r2 = r2_score(y_test, y_pred)
+    # Calculate Mean Squared Error (MSE)
     mse = mean_squared_error(y_test, y_pred)
+    # Calculate R-squared (R2)
+    r2 = r2_score(y_test, y_pred)
 
-    X = df[['5 star ratings', '1 star ratings']]
-    y = df['average rating']
+    st.subheader("Model Performance:")
+    st.write("Mean Squared Error (MSE):", mse)
+    st.write("R-squared (R²):", r2)
+
     
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-    
-    rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
-    rf_model.fit(X_scaled, y)
     
     if st.button("Random Game"):
         # Randomly select a game for prediction
