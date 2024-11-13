@@ -732,6 +732,22 @@ elif st.session_state.page_selection == "prediction":
     #with col[1]:
     st.markdown("---")
 
+    category_order = [
+        'GAME ACTION', 'GAME ADVENTURE', 'GAME ARCADE', 'GAME BOARD',
+           'GAME CARD', 'GAME CASINO', 'GAME CASUAL', 'GAME EDUCATIONAL',
+           'GAME MUSIC', 'GAME PUZZLE', 'GAME RACING', 'GAME ROLE PLAYING',
+           'GAME SIMULATION', 'GAME SPORTS', 'GAME STRATEGY', 'GAME TRIVIA',
+           'GAME WORD'
+    ]
+    category_encoder = LabelEncoder()
+    df['categoryLabel'] = category_encoder.fit_transform(df['category'])
+    
+    install_ranges = ['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']
+    install_encoder = OrdinalEncoder(categories=[install_ranges], handle_unknown='use_encoded_value', unknown_value=-1)
+    df['installsNumber'] = install_encoder.fit_transform(df[['installs']])
+    
+    duplicate_ranks = df[df.duplicated(subset=['category', 'rank', 'installs', 'total ratings'], keep=False)]
+
     X = df[['total ratings', '5 star ratings', 'categoryLabel']]
     y = df['rank']
     
@@ -739,18 +755,7 @@ elif st.session_state.page_selection == "prediction":
     
     tree_model = DecisionTreeRegressor(random_state=42)
     tree_model.fit(X_train, y_train)
-    
-    feature_importances = tree_model.feature_importances_
-    
-    plt.figure(figsize=(10, 6))
-    plt.barh(X.columns, feature_importances)
-    plt.xlabel("Importance")
-    plt.ylabel("Feature")
-    plt.title("Feature Importance in Decision Tree Model")
-    plt.tight_layout()
-    plt.show()
-
-    
+   
     
     st.title("Game Rank Reassigned")
     st.write("This shows the reassigned rank of the titles per category using Decision Tree Regressor.")
