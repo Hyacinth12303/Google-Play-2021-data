@@ -730,9 +730,49 @@ elif st.session_state.page_selection == "prediction":
     #col = st.columns((1, 1, 1), gap='medium')
     #with col[0]:
     #with col[1]:
+    st.markdown("---")
     
+    st.title("Game Rank Reassigned")
+    st.write("This shows the reassigned rank of the titles per category using Decision Tree Regressor.")
+
+    # Make predictions and add them to the DataFrame
+    df['predicted_rank'] = tree_model.predict(X)
     
+    # Loop through each category and plot original vs predicted ranks
+    for category in df['category'].unique():
+        # Filter the DataFrame for the specific category
+        category_df = df[df['category'] == category]
+        
+        # Sort the category dataframe by predicted rank in increasing order
+        category_df = category_df.sort_values(by='predicted_rank')
     
+        # Extract titles, original ranks, and predicted ranks
+        titles = category_df['title'].values
+        original_ranks = category_df['rank'].values  # Original ranks (unsorted)
+        predicted_ranks = category_df['predicted_rank'].values  # Predicted ranks (sorted)
+    
+        indices = np.arange(len(titles))  # Indices for x-axis
+    
+        # Create a bar chart
+        plt.figure(figsize=(12, 6))
+        plt.bar(indices, original_ranks, color='skyblue', alpha=0.7, label="Original Rank")
+        plt.bar(indices, predicted_ranks, color='orange', alpha=0.5, label="Predicted Rank")
+    
+        # Customize the plot
+        plt.xticks(indices, titles, rotation=90)  # Rotate titles on x-axis for readability
+        plt.xlabel("Title")
+        plt.ylabel("Rank")
+        plt.title(f"Original vs. Predicted Ranks for Category: {category}")
+        plt.legend()
+        plt.tight_layout()
+        plt.grid(True, linestyle="--", alpha=0.6)
+        
+        # Show plot in Streamlit
+        st.pyplot(plt)
+        plt.clf()  # Clear the figure to avoid overlapping plots
+    
+        
+        
 
 
 
