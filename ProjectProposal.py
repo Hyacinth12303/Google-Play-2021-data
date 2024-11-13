@@ -731,6 +731,26 @@ elif st.session_state.page_selection == "prediction":
     #with col[0]:
     #with col[1]:
     st.markdown("---")
+
+    X = df[['total ratings', '5 star ratings', 'categoryLabel']]
+    y = df['rank']
+    
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    tree_model = DecisionTreeRegressor(random_state=42)
+    tree_model.fit(X_train, y_train)
+    
+    feature_importances = tree_model.feature_importances_
+    
+    plt.figure(figsize=(10, 6))
+    plt.barh(X.columns, feature_importances)
+    plt.xlabel("Importance")
+    plt.ylabel("Feature")
+    plt.title("Feature Importance in Decision Tree Model")
+    plt.tight_layout()
+    plt.show()
+
+    
     
     st.title("Game Rank Reassigned")
     st.write("This shows the reassigned rank of the titles per category using Decision Tree Regressor.")
@@ -772,15 +792,6 @@ elif st.session_state.page_selection == "prediction":
         plt.clf()  # Clear the figure to avoid overlapping plots
     
         
-        
-
-
-
-
-
-
-
-
 
 
 # Conclusions Page
