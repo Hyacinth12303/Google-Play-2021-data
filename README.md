@@ -116,3 +116,10 @@ that the model explains a significant portion of the variance in the average rat
 
 Meanwhile, the R2 value for predicting ranks using the Decision Tree is lower compared to the Random Forest 
 model. However, it properly predicted the correct ranks of most of the titles in each category.
+
+
+**Members:**
+
+1. Reyes, Joanna Hyacinth M.
+
+   
