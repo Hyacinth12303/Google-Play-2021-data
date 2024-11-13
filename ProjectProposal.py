@@ -447,12 +447,6 @@ elif st.session_state.page_selection == "data_cleaning":
     
     if st.checkbox("Show Feature Importance Graph"):
 
-        df['installsNumber'] = install_encoder.fit_transform(df[['installs']])
-        # Encode categorical features
-        le = LabelEncoder()
-        
-        df['categoryLabel'] = le.fit_transform(df['categoryLabel'])
-        
         # 1. Set up features and target
         X = df[['total ratings', 'installsNumber', 'average rating', 'growth (30 days)', 'growth (60 days)', 'price', 'categoryLabel', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
         y = df['rank']
