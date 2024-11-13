@@ -2,5 +2,6 @@
 
 **[Disclaimer]: None of the assets/data belonged to me**
 
-A streamlit application that
-This repository serves as a project guide template for my students in **Introduction to Data Science** course for their final project. It contains a Python file `dashboard_template.py` which contains a boilerplate for a Streamlit dashboard.
+A streamlit application that analyzes this [dataset](https://www.kaggle.com/datasets/dhruvildave/top-play-store-games/data)
+
+
