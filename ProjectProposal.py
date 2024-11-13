@@ -357,7 +357,7 @@ elif st.session_state.page_selection == "data_cleaning":
 
     st.header("Train-Test Split")
     st.subheader("Random Forest Regressor")
-    st.write("The ARIMA model will be used in order to predict the growth over 2 months using the rank and the 1 month growth, thus the 30/60 days growth will only be used to predict the rank of the game.")
+    st.write("Random Forest Regressor will be used to predict the average rating of a title. It is an ensemble learning method that combines multiple decision trees to make predictions. The data will be split and trained to predict the average rating of a title. The features used is 5 stars and 1 star ratings in order to have a most accurate prediction of average rating.")
 
     code1 = """
         # Define features and target
@@ -368,15 +368,56 @@ elif st.session_state.page_selection == "data_cleaning":
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     """
     st.code(code1, language='python')
+
+    if st.checkbox("Show Data"):
+        st.write(df.head())
+    
+    # Define features and target variable
+    X = df[['5 star ratings', '1 star ratings']]
+    y = df['average rating']
+    
+    # Split data into train and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    # Scale features
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
+    # Initialize and train the Random Forest Regressor
+    rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+    rf_model.fit(X_train_scaled, y_train)
+    
+    # Evaluate feature importance
+    feature_importances = rf_model.feature_importances_
+    features = X.columns
+    
+    # Plot feature importances
+    fig, ax = plt.subplots(figsize=(10, 6))
+    indices = feature_importances.argsort()[::-1]  # Sort features by importance
+    ax.barh(range(len(indices)), feature_importances[indices], color='skyblue')
+    ax.set_yticks(range(len(indices)))
+    ax.set_yticklabels([features[i] for i in indices])
+    ax.set_xlabel("Feature Importance")
+    ax.set_ylabel("Feature")
+    ax.set_title("Feature Importance for Predicting Average Rating")
+    
+    # Show plot in Streamlit
+    st.pyplot(fig)
+
+
+    
     
     st.subheader('Decision Tree')
-    st.write("There will be 2 models used to determine the rank of the game, using different sets of features.\n The linear regression model will use the growth and the number of installs to predict the rank of the game. This will measure the rank basing on the activeness of the game or how often the users engage with the game.\n The random forest on the other hand shall use the average rating, installs, and growth(30 days) to determine the rank of the game. The code below shall be used to train and split the data.")
+    st.write("Decision Tree is used for both classifying ranks for this project. It creates a tree-like model of decisions and their possible consequences, with branches representing decision points and leaves representing outcomes. It’s used to reorder the rank of the title using other features in the dataset.")
 
     code2 = """
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     """
     #Displaying 2 separate things could interfere with how the output for the prediction will turn out...
     st.code(code2, language='python')
+
+
 
     # Your content for the DATA CLEANING / PREPROCESSING page goes here
 
