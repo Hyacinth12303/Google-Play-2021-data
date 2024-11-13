@@ -143,7 +143,7 @@ if st.session_state.page_selection == "about":
     st.write("1. Dataset - Brief description of the Top 100 Google Playstore Games dataset used in this dashboard.")
     st.write("2. EDA - Exploratory Data Analysis of the games dataset. Highlighting the distribution of Iris species and the relationship between the features. It includes graphs such as Pie Chart, Violinplots, Barplots, Boxplots and Scatterplots.")
     st.write("3. Data Cleaning / Pre-processing - Data cleaning and pre-processing steps such as encoding the installs column for training and testing sets.")
-    st.write("4. Machine Learning - Training three supervised classification models: ARIMA, Linear Regression, and Random Forest. This also includes model evaluation, feature importance, and tree plot")
+    st.write("4. Machine Learning - Training two supervised classification models: Random Forest Regression and Decision Tree. This also includes model details.")
     st.write("5. Prediction - Prediction page where 15 random different games will be displayed and its predicted rank and growth in 60 days")
     st.write("6. Conclusion - Summary of the insights and observations from the EDA and model training.")
 
@@ -369,9 +369,26 @@ elif st.session_state.page_selection == "data_cleaning":
     """
     st.code(code1, language='python')
 
-    if st.checkbox("Show graph"):
+    category_order = [
+        'GAME ACTION', 'GAME ADVENTURE', 'GAME ARCADE', 'GAME BOARD',
+           'GAME CARD', 'GAME CASINO', 'GAME CASUAL', 'GAME EDUCATIONAL',
+           'GAME MUSIC', 'GAME PUZZLE', 'GAME RACING', 'GAME ROLE PLAYING',
+           'GAME SIMULATION', 'GAME SPORTS', 'GAME STRATEGY', 'GAME TRIVIA',
+           'GAME WORD'
+    ]
+    category_encoder = LabelEncoder()
+
+    df['categoryLabel'] = category_encoder.fit_transform(df['category'])
+    install_ranges = ['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']
+    
+    install_encoder = OrdinalEncoder(categories=[install_ranges], handle_unknown='use_encoded_value', unknown_value=-1)
+    
+    df['installsNumber'] = install_encoder.fit_transform(df[['installs']])
+    duplicate_ranks = df[df.duplicated(subset=['category', 'rank', 'installs', 'total ratings'], keep=False)]
+
+    if st.checkbox("Show Feature Importance Graph"):
         # Define features and target variable
-        X = df[['5 star ratings', '1 star ratings']]
+        X = df[['rank', 'title', 'total ratings', 'installsNumber', 'average rating', 'growth (30 days)', 'growth (60 days)', 'price', 'category', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
         y = df['average rating']
         
         # Split data into train and test sets
@@ -426,8 +443,143 @@ elif st.session_state.page_selection == "data_cleaning":
     category_encoder = LabelEncoder()
 
     df['categoryLabel'] = category_encoder.fit_transform(df['category'])
+    install_ranges = ['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']
     
-    if st.checkbox("Show Graph"):
+    install_encoder = OrdinalEncoder(categories=[install_ranges], handle_unknown='use_encoded_value', unknown_value=-1)
+    
+    df['installsNumber'] = install_encoder.fit_transform(df[['installs']])
+    duplicate_ranks = df[df.duplicated(subset=['category', 'rank', 'installs', 'total ratings'], keep=False)]
+    
+    if st.checkbox("Show Feature Importance Graph"):
+        
+        install_ranges = ['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']
+        
+        install_encoder = OrdinalEncoder(categories=[install_ranges], handle_unknown='use_encoded_value', unknown_value=-1)
+        
+        df['installsNumber'] = install_encoder.fit_transform(df[['installs']])
+        # Encode categorical features
+        le = LabelEncoder()
+        
+        df['categoryLabel'] = le.fit_transform(df['categoryLabel'])
+        
+        # 1. Set up features and target
+        X = df[['rank', 'title', 'total ratings', 'installsNumber', 'average rating', 'growth (30 days)', 'growth (60 days)', 'price', 'categoryLabel', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
+        y = df['rank']
+        
+        # 2. Split data into train and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        
+        # 3. Train the DecisionTreeRegressor
+        tree_model = DecisionTreeRegressor(random_state=42)
+        tree_model.fit(X_train, y_train)
+        
+        # 4. Feature Importance Plot
+        feature_importances = tree_model.feature_importances_
+        
+        fig, ax = plt.subplots(figsize=(10, 6))
+        ax.barh(X.columns, feature_importances, color="skyblue")
+        ax.set_xlabel("Importance")
+        ax.set_ylabel("Feature")
+        ax.set_title("Feature Importance in Decision Tree Model")
+        plt.tight_layout()
+        
+        # Show plot in Streamlit
+        st.pyplot(fig)
+
+    # Your content for the DATA CLEANING / PREPROCESSING page goes here
+
+
+
+# Machine Learning Page
+elif st.session_state.page_selection == "machine_learning":
+    st.header("🤖 Machine Learning")
+
+    # Your content for the MACHINE LEARNING page goes here
+
+    st.markdown("**Random Forest Regression**")
+    st.write("A RandomForestRegressor is initialized with n_estimators=100 (meaning it uses 100 decision trees) and random_state=42 for reproducibility. The model is trained using the scaled training data (X_train_scaled, y_train).")
+    code3 = """
+    X = df[['5 star ratings', '1 star ratings']] #These 2 shows utmost importance, exceeding 0.1
+    y = df['average rating']  # Target variable
+    
+    # Split data into train and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    # Scale features
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
+    # Initialize and train the Random Forest Regressor
+    rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+    rf_model.fit(X_train_scaled, y_train)
+    """
+    
+    st.code(code3, language='python')
+        if st.checkbox("Show Feature Importance Graph"):
+        # Define features and target variable
+        X = df[['5 star ratings', '1 star ratings']]
+        y = df['average rating']
+        
+        # Split data into train and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        
+        # Scale features
+        scaler = StandardScaler()
+        X_train_scaled = scaler.fit_transform(X_train)
+        X_test_scaled = scaler.transform(X_test)
+        
+        # Initialize and train the Random Forest Regressor
+        rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+        rf_model.fit(X_train_scaled, y_train)
+        
+        # Evaluate feature importance
+        feature_importances = rf_model.feature_importances_
+        features = X.columns
+        
+        # Plot feature importances
+        fig, ax = plt.subplots(figsize=(10, 6))
+        indices = feature_importances.argsort()[::-1]  # Sort features by importance
+        ax.barh(range(len(indices)), feature_importances[indices], color='skyblue')
+        ax.set_yticks(range(len(indices)))
+        ax.set_yticklabels([features[i] for i in indices])
+        ax.set_xlabel("Feature Importance")
+        ax.set_ylabel("Feature")
+        ax.set_title("Feature Importance for Predicting Average Rating")
+        
+        # Show plot in Streamlit
+        st.pyplot(fig)
+    
+#DT
+    st.markdown("**Decision Tree Regression**")
+
+    st.write("This utilizes linear regression to predict the rank of a game title based on its growth in 30 and 60 days and the number of installs. This model could be valuable for developers and marketers to gauge the potential success of a game based on its early performance indicators.")
+
+    category_order = [
+        'GAME ACTION', 'GAME ADVENTURE', 'GAME ARCADE', 'GAME BOARD',
+           'GAME CARD', 'GAME CASINO', 'GAME CASUAL', 'GAME EDUCATIONAL',
+           'GAME MUSIC', 'GAME PUZZLE', 'GAME RACING', 'GAME ROLE PLAYING',
+           'GAME SIMULATION', 'GAME SPORTS', 'GAME STRATEGY', 'GAME TRIVIA',
+           'GAME WORD'
+    ]
+    category_encoder = LabelEncoder()
+    code333 = """
+    from sklearn.tree import DecisionTreeRegressor
+    
+    # 1. Set up features and target
+    X = df[['total ratings', '5 star ratings', 'categoryLabel']]
+    y = df['rank']
+    
+    # 2. Split data into train and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    # 3. Train the DecisionTreeRegressor
+    tree_model = DecisionTreeRegressor(random_state=42)
+    tree_model.fit(X_train, y_train)
+    """
+    st.code(code333, language='python')
+
+    if st.checkbox("Show Feature Importance Graph"):
         
         # Encode categorical features
         le = LabelEncoder()
@@ -457,126 +609,7 @@ elif st.session_state.page_selection == "data_cleaning":
         # Show plot in Streamlit
         st.pyplot(fig)
 
-    # Your content for the DATA CLEANING / PREPROCESSING page goes here
 
-# Machine Learning Page
-elif st.session_state.page_selection == "machine_learning":
-    st.header("🤖 Machine Learning")
-
-    # Your content for the MACHINE LEARNING page goes here
-
-    st.markdown("**ARIMA model**")
-    st.write("This employs the ARIMA (Autoregressive Integrated Moving Average) technique to forecast the 60-day growth of a game title based on its 30-day growth. ARIMA models are widely used for time series analysis and forecasting, leveraging past data patterns to predict future values. By utilizing historical growth data, this model aims to project the game's growth trajectory over the subsequent two months. This prediction can be valuable for understanding the long-term performance potential of a game and making informed decisions about marketing strategies and resource allocation.")
-
-    st.write("In order to choose the best order for arima, auto arima is used to determine the best order for the dataset.")
-    code3 = """
-    model = auto_arima(train_y, exogenous=train_exog,
-      start_p=0, start_q=0,
-      max_p=3, max_q=3, m=12, # Adjustable
-      start_P=0, seasonal=True,
-      d=None, D=1, trace=True,
-      error_action='ignore',
-      suppress_warnings=True,
-      stepwise=True)
-    """
-    st.code(code3, language='python')
-    
-    st.write("The result regarding the most optimal order is 0/0/0, however 0/1/0 is used for the model since it depicted a more interesting predictions and a lesser mse")
-
-    code5 = """
-        Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))  
-        model_fit = Amodel.fit()  
-        Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
-        mse = mean_squared_error(test_y, Apredictions)
-    """
-    
-    st.code(code5, language='python')
-#ARIMA model code
-    Adt = df[['growth (30 days)', 'growth (60 days)']]
-    y = Adt['growth (60 days)']
-    exog = Adt[['growth (30 days)']]
-    train_y = y[:-30]
-    test_y = y[-30:]
-    train_exog = exog[:-30]
-    test_exog = exog[-30:]
-    Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))  
-    model_fit = Amodel.fit()  
-    Apredictions = model_fit.predict(start=len(train_y), end=len(y)-1, exog=test_exog)
-    mse = mean_squared_error(test_y, Apredictions)
-    st.write(f'Mean Squared Error: {mse}')
-    rmse = np.sqrt(mse)
-    st.write(f'Mean Squared Error: {mse:.2f}')
-    st.write(f'Root Mean Squared Error: {rmse:.2f}')
-
-#Feature Importance
-    st.markdown("**Linear Regression model**")
-
-    st.write("This utilizes linear regression to predict the rank of a game title based on its growth in 30 and 60 days and the number of installs. This model could be valuable for developers and marketers to gauge the potential success of a game based on its early performance indicators.")
-
-#label encoder
-    def instLL():
-        label_encoder = LabelEncoder()
-        install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
-        df['installsNumber'] = label_encoder.fit_transform(df['installs'])
-    instLL()
-    
-    col = st.columns((3,3), gap='medium')
-    with col[0]:
-        
-        X = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]  # Include all relevant features
-        y = df['rank']
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        LRM = LinearRegression()  # Create an instance of the model
-        LRM.fit(X_train, y_train)  # Train the model on the training data
-        importances = LRM.coef_  # Get coefficients as feature importances
-        feature_names = X_train.columns  # Assuming X_train contains your feature names
-        plt.figure(figsize=(8, 6))
-        sns.barplot(x=importances, y=feature_names)
-        plt.title('Feature Importance in Linear Regression Model')
-        plt.xlabel('Coefficient Value')  # Change x-axis label to 'Coefficient Value'
-        plt.ylabel('Feature')
-        st.pyplot(plt)
-        plt.clf() 
-        
-    with col[1]:
-        st.write("This graph shows that the average rating and the number of installs gave a negative influence while whether the game is paid or not shows the highest value, since free games tend to go on top in stores. This means that the amount of installs and how high the rating affects the output. However the growth gave no significant influence, thus will be removed.")
-        LRPred = LRM.predict(X_test)
-        mse = mean_squared_error(y_test, LRPred)
-        r2 = r2_score(y_test, LRPred)
-        st.write(f'Mean Squared Error: {mse}')
-        st.write(f'Mean Squared Error: {mse:.2f}')
-        st.write(f'Root-squared: {r2:.2f}')
-    
-    st.markdown("**Random Forest model**")
-    st.write("This will utilize the Random Forest algorithm, an ensemble learning method, to predict the rank of a game title based on its average rating, number of installs, and 30-day growth. Random Forest combines multiple decision trees to create a robust and accurate prediction model. By considering these key performance indicators, this model aims to estimate a game's ranking on the Google Play Store. This information can be valuable for understanding the factors that influence game rankings and for making data-driven decisions to improve a game's visibility and discoverability.")
-    
-#RANDOM FOREST model code
-
-    col = st.columns((3,3), gap='medium')
-    
-    with col[0]:
-        X = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']]  # Include all relevant features
-        y = df['rank']
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        rf_model = RandomForestRegressor(n_estimators=100, random_state=42)  # Adjust hyperparameters as needed
-        rf_model.fit(X_train, y_train)
-        importances = rf_model.feature_importances_
-        feature_names = X_train.columns  # Get feature names from X_train
-        
-        plt.figure(figsize=(8, 6))
-        sns.barplot(x=importances, y=feature_names)
-        plt.title('Feature Importance in Random Forest Model')
-        plt.xlabel('Importance Score')
-        plt.ylabel('Feature')
-        st.pyplot(plt)
-    with col[1]:
-        st.write("Unlike the Linear Regression model, this graph shows that whether the game is free or not does not have much impact the model, thus will be removed. It shows that 60-day growth is highly important, followed by the number of installs and the 30-day growth. The average rating of the game also doesn't have much importance in determining the rank.")
-        y_pred = rf_model.predict(X_test)
-        mse = mean_squared_error(y_test, y_pred)
-        r2 = r2_score(y_test, y_pred)
-        st.write(f'Mean Squared Error: {mse}')
-        st.write(f'Mean Squared Error: {mse:.2f}')
-        st.write(f'Root-squared: {r2:.2f}')        
 
 # Prediction Page
 elif st.session_state.page_selection == "prediction":
