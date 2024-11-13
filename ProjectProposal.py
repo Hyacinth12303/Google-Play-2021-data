@@ -415,7 +415,17 @@ elif st.session_state.page_selection == "data_cleaning":
   
     st.code(code2, language='python')
 
+    #I use label encode here since its a category, unlike installs, the higher the value is, the better
+    category_order = [
+        'GAME ACTION', 'GAME ADVENTURE', 'GAME ARCADE', 'GAME BOARD',
+           'GAME CARD', 'GAME CASINO', 'GAME CASUAL', 'GAME EDUCATIONAL',
+           'GAME MUSIC', 'GAME PUZZLE', 'GAME RACING', 'GAME ROLE PLAYING',
+           'GAME SIMULATION', 'GAME SPORTS', 'GAME STRATEGY', 'GAME TRIVIA',
+           'GAME WORD'
+    ]
+    category_encoder = LabelEncoder()
 
+df['categoryLabel'] = category_encoder.fit_transform(df['category'])
     if st.checkbox("Show Graph"):
         
         # Encode categorical features
