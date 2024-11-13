@@ -387,7 +387,7 @@ elif st.session_state.page_selection == "data_cleaning":
 
     if st.checkbox("Show Feature Importance Graph"):
         # Define features and target variable
-        X = df[['rank', 'title', 'total ratings', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'price', 'category', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
+        X = df[['rank', 'total ratings', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'price', 'categoryLabel', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
         y = df['average rating']
         
         # Split data into train and test sets
@@ -454,7 +454,7 @@ elif st.session_state.page_selection == "data_cleaning":
         df['categoryLabel'] = le.fit_transform(df['categoryLabel'])
         
         # 1. Set up features and target
-        X = df[['title', 'total ratings', 'installsNumber', 'average rating', 'growth (30 days)', 'growth (60 days)', 'price', 'categoryLabel', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
+        X = df[['total ratings', 'installsNumber', 'average rating', 'growth (30 days)', 'growth (60 days)', 'price', 'categoryLabel', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
         y = df['rank']
         
         # 2. Split data into train and test sets
