@@ -385,7 +385,7 @@ elif st.session_state.page_selection == "data_cleaning":
     
     duplicate_ranks = df[df.duplicated(subset=['category', 'rank', 'installs', 'total ratings'], keep=False)]
 
-    if st.checkbox("Show Feature Importance Graph for RF Regressor"):
+    if st.checkbox("Show Feature Importance Graph for RF Regressor no filter"):
         # Define features and target variable
         X = df[['rank', 'total ratings', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'price', 'categoryLabel', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
         y = df['average rating']
@@ -444,7 +444,7 @@ elif st.session_state.page_selection == "data_cleaning":
     df['installsNumber'] = install_encoder.fit_transform(df[['installs']])
     duplicate_ranks = df[df.duplicated(subset=['category', 'rank', 'installs', 'total ratings'], keep=False)]
     
-    if st.checkbox("Show Feature Importance Graph for DT Regressor"):
+    if st.checkbox("Show Feature Importance Graph for DT Regressor no filter"):
         X = df[['total ratings', 'installsNumber', 'average rating', 'growth (30 days)', 'growth (60 days)', 'price', 'categoryLabel', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
         y = df['rank']
         
@@ -479,43 +479,58 @@ elif st.session_state.page_selection == "machine_learning":
     # Your content for the MACHINE LEARNING page goes here
 
     st.markdown("**Random Forest Regression**")
-    st.write("A RandomForestRegressor is initialized with n_estimators=100 (meaning it uses 100 decision trees) and random_state=42 for reproducibility. The model is trained using the scaled training data (X_train_scaled, y_train).")
+    st.write("A Random Forest Regressor is initialized with n_estimators=100 (meaning it uses 100 decision trees) and random_state=42 for reproducibility. The model is trained using the scaled training data (X_train_scaled, y_train).")
     code3 = """
-        X = df[['5 star ratings', '1 star ratings']] #These 2 shows utmost importance, exceeding 0.1
-        y = df['average rating']  # Target variable
-        
-        # Split data into train and test sets
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        
-        # Scale features
-        scaler = StandardScaler()
-        X_train_scaled = scaler.fit_transform(X_train)
-        X_test_scaled = scaler.transform(X_test)
-        
-        # Initialize and train the Random Forest Regressor
-        rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
-        rf_model.fit(X_train_scaled, y_train)
+    X = df[['5 star ratings', '1 star ratings']] #These 2 shows utmost importance, exceeding 0.1
+    y = df['average rating']  # Target variable
+    
+    
+    # Split data into train and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    # Scale features
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
+    # Initialize and train the Random Forest Regressor
+    rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+    rf_model.fit(X_train_scaled, y_train)
+    
+    # Evaluate feature importance
+    feature_importances = rf_model.feature_importances_
+    features = X.columns
+    
+    # Plot feature importances
+    plt.figure(figsize=(10, 8))
+    indices = feature_importances.argsort()[::-1]  # Sort features by importance
+    plt.barh(range(len(indices)), feature_importances[indices], color='skyblue')
+    plt.yticks(range(len(indices)), [features[i] for i in indices])
+    plt.xlabel("Feature Importance")
+    plt.ylabel("Feature")
+    plt.title("Feature Importance for Predicting Average Rating")
+    plt.show()
     """
     
     st.code(code3, language='python')
-    
-    if st.checkbox("Show Feature Importance Graph"):
-        # Define features and target variable
-        X = df[['5 star ratings', '1 star ratings']]
-        y = df['average rating']
+
+    X = df[['5 star ratings', '1 star ratings']]
+    y = df['average rating']
         
         # Split data into train and test sets
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         
         # Scale features
-        scaler = StandardScaler()
-        X_train_scaled = scaler.fit_transform(X_train)
-        X_test_scaled = scaler.transform(X_test)
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
         
         # Initialize and train the Random Forest Regressor
-        rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
-        rf_model.fit(X_train_scaled, y_train)
-        
+    rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+    rf_model.fit(X_train_scaled, y_train)
+    
+    if st.checkbox("Show Feature Importance Graph (final)"):
+        # Define features and target variable        
         # Evaluate feature importance
         feature_importances = rf_model.feature_importances_
         features = X.columns
@@ -532,25 +547,39 @@ elif st.session_state.page_selection == "machine_learning":
         
         # Show plot in Streamlit
         st.pyplot(fig)
+    y_pred = rf_model.predict(X_test_scaled)
+    mse = mean_squared_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
     
+    st.subheader("Model Performance:")
+    st.write("Mean Squared Error (MSE):", mse)
+    st.write("R-squared (R²):", r2)
+
+    st.markdown("---")
+        
 #DT
     st.markdown("**Decision Tree Regression**")
 
-    st.write("This utilizes linear regression to predict the rank of a game title based on its growth in 30 and 60 days and the number of installs. This model could be valuable for developers and marketers to gauge the potential success of a game based on its early performance indicators.")
+    st.write("This project will utilize Decision Tree Regressor to predict the rank of an Android game based on its total ratings, 5 star ratings, and category(label encoded). This model could be valuable for developers and marketers to gauge the potential success of a game based on its early performance indicators.")
     
     code333 = """
-        from sklearn.tree import DecisionTreeRegressor
-        
-        # 1. Set up features and target
-        X = df[['total ratings', '5 star ratings', 'categoryLabel']]
-        y = df['rank']
-        
-        # 2. Split data into train and test sets
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        
-        # 3. Train the DecisionTreeRegressor
-        tree_model = DecisionTreeRegressor(random_state=42)
-        tree_model.fit(X_train, y_train)
+    X = df[['total ratings', '5 star ratings', 'categoryLabel']]
+    y = df['rank']
+    
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    tree_model = DecisionTreeRegressor(random_state=42)
+    tree_model.fit(X_train, y_train)
+
+    feature_importances = tree_model.feature_importances_
+    
+    plt.figure(figsize=(10, 6))
+    plt.barh(X.columns, feature_importances)
+    plt.xlabel("Importance")
+    plt.ylabel("Feature")
+    plt.title("Feature Importance in Decision Tree Model")
+    plt.tight_layout()
+    plt.show()
     """
     st.code(code333, language='python')
     
@@ -570,20 +599,14 @@ elif st.session_state.page_selection == "machine_learning":
     
     duplicate_ranks = df[df.duplicated(subset=['category', 'rank', 'installs', 'total ratings'], keep=False)]
     
+    X = df[['total ratings', '5 star ratings', 'categoryLabel']]
+    y = df['rank']
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    tree_model = DecisionTreeRegressor(random_state=42)
+    tree_model.fit(X_train, y_train)   
+    
     if st.checkbox("Show Feature Importance Graph"):
-        
-        # 1. Set up features and target
-        X = df[['total ratings', '5 star ratings', 'categoryLabel']]
-        y = df['rank']
-        
-        # 2. Split data into train and test sets
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        
-        # 3. Train the DecisionTreeRegressor
-        tree_model = DecisionTreeRegressor(random_state=42)
-        tree_model.fit(X_train, y_train)
-        
-        # 4. Feature Importance Plot
+
         feature_importances = tree_model.feature_importances_
         
         fig, ax = plt.subplots(figsize=(10, 6))
@@ -595,6 +618,16 @@ elif st.session_state.page_selection == "machine_learning":
         
         # Show plot in Streamlit
         st.pyplot(fig)
+        
+    df['predicted_rank'] = tree_model.predict(X)
+    df_sorted = df.sort_values(by='predicted_rank', ascending=True)  
+    df['predicted_rank_ordinal'] = df['predicted_rank'].round().astype(int)
+    
+    y_pred = tree_model.predict(X_test)
+    r2 = r2_score(y_test, y_pred)
+    mse = mean_squared_error(y_test, y_pred)
+    print("Mean Squared Error (MSE):", mse)
+    print("R-squared (R2):", r2)
 
 
 
