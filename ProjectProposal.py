@@ -144,7 +144,7 @@ if st.session_state.page_selection == "about":
     st.write("2. EDA - Exploratory Data Analysis of the games dataset. Highlighting the distribution of Iris species and the relationship between the features. It includes graphs such as Pie Chart, Violinplots, Barplots, Boxplots and Scatterplots.")
     st.write("3. Data Cleaning / Pre-processing - Data cleaning and pre-processing steps such as encoding the installs column for training and testing sets.")
     st.write("4. Machine Learning - Training two supervised classification models: Random Forest Regression and Decision Tree. This also includes model details.")
-    st.write("5. Prediction - Prediction page where 15 random different games will be displayed and its predicted rank and growth in 60 days")
+    st.write("5. Prediction - Prediction page where rank and average rating is reassigned predicted and compared.")
     st.write("6. Conclusion - Summary of the insights and observations from the EDA and model training.")
 
 # Dataset Page
