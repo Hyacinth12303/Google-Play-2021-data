@@ -529,7 +529,7 @@ elif st.session_state.page_selection == "machine_learning":
     rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
     rf_model.fit(X_train_scaled, y_train)
     
-    if st.checkbox("Show Feature Importance Graph (final)"):
+    if st.checkbox("Show Feature Importance Graph (RFR final)"):
         # Define features and target variable        
         # Evaluate feature importance
         feature_importances = rf_model.feature_importances_
@@ -605,7 +605,7 @@ elif st.session_state.page_selection == "machine_learning":
     tree_model = DecisionTreeRegressor(random_state=42)
     tree_model.fit(X_train, y_train)   
     
-    if st.checkbox("Show Feature Importance Graph"):
+    if st.checkbox("Show Feature Importance Graph (DTR final)"):
 
         feature_importances = tree_model.feature_importances_
         
