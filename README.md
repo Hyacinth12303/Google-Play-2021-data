@@ -6,11 +6,23 @@ A streamlit application that analyzes this [dataset](https://www.kaggle.com/data
 
 **Streamlit Link:** [Google Playstore Top Games (2021) Data Analysis](https://gplaystore-top100gamesdt2021.streamlit.app/)
 
-#Pages
+**Streamlit Pages**
+
+Dataset - Brief description of the Top 100 Google Playstore Games dataset used in this dashboard.
+
+EDA - Exploratory Data Analysis of the games dataset. Highlighting the distribution of Iris species and the relationship between the features. It includes graphs such as Pie Chart, Violinplots, Barplots, Boxplots, and Scatterplots.
+
+Data Cleaning / Pre-processing - Data cleaning and pre-processing steps such as encoding the installs column for training and testing sets.
+
+Machine Learning - Training two supervised classification models: Random Forest Regression and Decision Tree. This also includes model details.
+
+Prediction - Prediction page where 15 random different games will be displayed and its predicted rank and growth in 60 days
+
+Conclusion - Summary of the insights and observations from the EDA and model training.
 
 **I. Data Understanding** 
 
-The dataset contains the details of top 100 games in Google Playstore in 2021, composed 
+The dataset contains the details of top 100 games in Google Play Store in 2021, composed 
 of 15  columns and 1730 rows.
 
 **[Rank]:** The game's rank in the list of games.
