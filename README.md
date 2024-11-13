@@ -6,7 +6,7 @@ A streamlit application that analyzes this [dataset](https://www.kaggle.com/data
 
 **Streamlit Link:** [Google Playstore Top Games (2021) Data Analysis](https://gplaystore-top100gamesdt2021.streamlit.app/)
 
-###Pages
+#Pages
 
 **I. Data Understanding** 
 
