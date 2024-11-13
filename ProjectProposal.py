@@ -499,24 +499,25 @@ elif st.session_state.page_selection == "machine_learning":
     st.markdown("**Random Forest Regression**")
     st.write("A RandomForestRegressor is initialized with n_estimators=100 (meaning it uses 100 decision trees) and random_state=42 for reproducibility. The model is trained using the scaled training data (X_train_scaled, y_train).")
     code3 = """
-    X = df[['5 star ratings', '1 star ratings']] #These 2 shows utmost importance, exceeding 0.1
-    y = df['average rating']  # Target variable
-    
-    # Split data into train and test sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    
-    # Scale features
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-    
-    # Initialize and train the Random Forest Regressor
-    rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
-    rf_model.fit(X_train_scaled, y_train)
+        X = df[['5 star ratings', '1 star ratings']] #These 2 shows utmost importance, exceeding 0.1
+        y = df['average rating']  # Target variable
+        
+        # Split data into train and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        
+        # Scale features
+        scaler = StandardScaler()
+        X_train_scaled = scaler.fit_transform(X_train)
+        X_test_scaled = scaler.transform(X_test)
+        
+        # Initialize and train the Random Forest Regressor
+        rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+        rf_model.fit(X_train_scaled, y_train)
     """
     
     st.code(code3, language='python')
-        if st.checkbox("Show Feature Importance Graph"):
+    
+    if st.checkbox("Show Feature Importance Graph"):
         # Define features and target variable
         X = df[['5 star ratings', '1 star ratings']]
         y = df['average rating']
