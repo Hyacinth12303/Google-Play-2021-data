@@ -385,7 +385,7 @@ elif st.session_state.page_selection == "data_cleaning":
     
     duplicate_ranks = df[df.duplicated(subset=['category', 'rank', 'installs', 'total ratings'], keep=False)]
 
-    if st.checkbox("Show Feature Importance Graph"):
+    if st.checkbox("Show Feature Importance Graph for RF Regressor"):
         # Define features and target variable
         X = df[['rank', 'total ratings', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'price', 'categoryLabel', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
         y = df['average rating']
@@ -444,7 +444,7 @@ elif st.session_state.page_selection == "data_cleaning":
     df['installsNumber'] = install_encoder.fit_transform(df[['installs']])
     duplicate_ranks = df[df.duplicated(subset=['category', 'rank', 'installs', 'total ratings'], keep=False)]
     
-    if st.checkbox("Show Feature Importance Graph"):
+    if st.checkbox("Show Feature Importance Graph for DT Regressor"):
         X = df[['total ratings', 'installsNumber', 'average rating', 'growth (30 days)', 'growth (60 days)', 'price', 'categoryLabel', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
         y = df['rank']
         
