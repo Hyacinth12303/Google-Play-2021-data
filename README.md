@@ -8,8 +8,23 @@ A streamlit application that analyzes this [dataset](https://www.kaggle.com/data
 The dataset contains the details of top 100 games in Google Playstore in 2021, composed 
 of 15  columns and 1730 rows.
 
+[Rank]: The game's rank in the list of games.
+[Title]: The name of the game.
+[Total Ratings]: The total number of ratings the game has received.
+[Installs]: The total number of downloads the game has reached.
+[Average Rating]: The average rating score of the game. (1-5 stars)
+[Growth (30 days)]: The growth in the total number of downloads and ratings over the last 30 days
+[Growth (60 days)]: The growth in the total number of downloads and ratings over the last 60 days
+[Price]: The price of the game.
+[Category]: The genre or category to which the game belongs (e.g., Action, Adventure, Puzzle).
+[5 star ratings]: The total number of 5-star ratings the game has received.
+[4 star ratings]: The total number of 5-star ratings the game has received.
+[3 star ratings]: The total number of 5-star ratings the game has received.
+[2 star ratings]: The total number of 5-star ratings the game has received.
+[1 star ratings]: The total number of 5-star ratings the game has received.
+[Paid]: A boolean value indicating whether the game is a paid game (True) or free (False).
 
-**II. Objectives **
+**II. Objectives**
 
 This project aims to:
 
@@ -36,16 +51,16 @@ Duplicate titles with very similar data will be filtered out for the model train
 A label encoder will also be used to enumerate the ‘installs’ column, listing 100.0k(0) as the 
 lowest value and 1000.0M(8) as the highest.  
 
-V. Modeling  
+**V. Modeling**
 The project will use Random Forest to predict the average rating of a title. It is an ensemble 
 learning method that combines multiple decision trees to make predictions. 
 
 Decision Tree is used for both classifying ranks for this project. It creates a tree-like model 
 of decisions and their possible consequences, with branches representing decision points 
 and leaves representing outcomes. 
-It’s used reorder the rank of the title using other features in the dataset. 
+It’s used to reorder the rank of the title using other features in the dataset. 
 
-VI. Evaluation  
+**VI. Evaluation**
 
 The model achieved a high R-squared (R2) value in the random forest model. This indicates 
 that the model explains a significant portion of the variance in the average rating.
