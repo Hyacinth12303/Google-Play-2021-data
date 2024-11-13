@@ -763,6 +763,16 @@ elif st.session_state.page_selection == "prediction":
     # Make predictions and add them to the DataFrame
     df['predicted_rank'] = tree_model.predict(X)
     
+    df_sorted = df.sort_values(by='predicted_rank', ascending=True)  
+    df['predicted_rank_ordinal'] = df['predicted_rank'].round().astype(int)
+    
+    y_pred = tree_model.predict(X_test)
+    r2 = r2_score(y_test, y_pred)
+
+    st.subheader("Model Performance:")
+    st.write("Mean Squared Error (MSE):", mse)
+    st.write("R-squared (R²):", r2)
+    
     # Loop through each category and plot original vs predicted ranks
     for category in df['category'].unique():
         # Filter the DataFrame for the specific category
