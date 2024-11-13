@@ -13,19 +13,33 @@ The dataset contains the details of top 100 games in Google Playstore in 2021, c
 of 15  columns and 1730 rows.
 
 [Rank]: The game's rank in the list of games.
+
 [Title]: The name of the game.
+
 [Total Ratings]: The total number of ratings the game has received.
+
 [Installs]: The total number of downloads the game has reached.
+
 [Average Rating]: The average rating score of the game. (1-5 stars)
+
 [Growth (30 days)]: The growth in the total number of downloads and ratings over the last 30 days
+
 [Growth (60 days)]: The growth in the total number of downloads and ratings over the last 60 days
+
 [Price]: The price of the game.
+
 [Category]: The genre or category to which the game belongs (e.g., Action, Adventure, Puzzle).
+
 [5 star ratings]: The total number of 5-star ratings the game has received.
+
 [4 star ratings]: The total number of 5-star ratings the game has received.
+
 [3 star ratings]: The total number of 5-star ratings the game has received.
+
 [2 star ratings]: The total number of 5-star ratings the game has received.
+
 [1 star ratings]: The total number of 5-star ratings the game has received.
+
 [Paid]: A boolean value indicating whether the game is a paid game (True) or free (False).
 
 **II. Objectives**
