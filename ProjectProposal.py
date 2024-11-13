@@ -377,18 +377,17 @@ elif st.session_state.page_selection == "data_cleaning":
            'GAME WORD'
     ]
     category_encoder = LabelEncoder()
-
     df['categoryLabel'] = category_encoder.fit_transform(df['category'])
+    
     install_ranges = ['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']
-    
     install_encoder = OrdinalEncoder(categories=[install_ranges], handle_unknown='use_encoded_value', unknown_value=-1)
-    
     df['installsNumber'] = install_encoder.fit_transform(df[['installs']])
+    
     duplicate_ranks = df[df.duplicated(subset=['category', 'rank', 'installs', 'total ratings'], keep=False)]
 
     if st.checkbox("Show Feature Importance Graph"):
         # Define features and target variable
-        X = df[['rank', 'title', 'total ratings', 'installsNumber', 'average rating', 'growth (30 days)', 'growth (60 days)', 'price', 'category', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
+        X = df[['rank', 'title', 'total ratings', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'price', 'category', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
         y = df['average rating']
         
         # Split data into train and test sets
@@ -419,9 +418,6 @@ elif st.session_state.page_selection == "data_cleaning":
         
         # Show plot in Streamlit
         st.pyplot(fig)
-
-
-    
     
     st.subheader('Decision Tree')
     st.write("Decision Tree is used for both classifying ranks for this project. It creates a tree-like model of decisions and their possible consequences, with branches representing decision points and leaves representing outcomes. It’s used to reorder the rank of the title using other features in the dataset.")
@@ -432,7 +428,6 @@ elif st.session_state.page_selection == "data_cleaning":
   
     st.code(code2, language='python')
 
-    #I use label encode here since its a category, unlike installs, the higher the value is, the better
     category_order = [
         'GAME ACTION', 'GAME ADVENTURE', 'GAME ARCADE', 'GAME BOARD',
            'GAME CARD', 'GAME CASINO', 'GAME CASUAL', 'GAME EDUCATIONAL',
@@ -451,11 +446,7 @@ elif st.session_state.page_selection == "data_cleaning":
     duplicate_ranks = df[df.duplicated(subset=['category', 'rank', 'installs', 'total ratings'], keep=False)]
     
     if st.checkbox("Show Feature Importance Graph"):
-        
-        install_ranges = ['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']
-        
-        install_encoder = OrdinalEncoder(categories=[install_ranges], handle_unknown='use_encoded_value', unknown_value=-1)
-        
+
         df['installsNumber'] = install_encoder.fit_transform(df[['installs']])
         # Encode categorical features
         le = LabelEncoder()
@@ -463,7 +454,7 @@ elif st.session_state.page_selection == "data_cleaning":
         df['categoryLabel'] = le.fit_transform(df['categoryLabel'])
         
         # 1. Set up features and target
-        X = df[['rank', 'title', 'total ratings', 'installsNumber', 'average rating', 'growth (30 days)', 'growth (60 days)', 'price', 'categoryLabel', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
+        X = df[['title', 'total ratings', 'installsNumber', 'average rating', 'growth (30 days)', 'growth (60 days)', 'price', 'categoryLabel', '5 star ratings', '4 star ratings', '3 star ratings', '2 star ratings', '1 star ratings', 'paid']]
         y = df['rank']
         
         # 2. Split data into train and test sets
@@ -555,15 +546,7 @@ elif st.session_state.page_selection == "machine_learning":
     st.markdown("**Decision Tree Regression**")
 
     st.write("This utilizes linear regression to predict the rank of a game title based on its growth in 30 and 60 days and the number of installs. This model could be valuable for developers and marketers to gauge the potential success of a game based on its early performance indicators.")
-
-    category_order = [
-        'GAME ACTION', 'GAME ADVENTURE', 'GAME ARCADE', 'GAME BOARD',
-           'GAME CARD', 'GAME CASINO', 'GAME CASUAL', 'GAME EDUCATIONAL',
-           'GAME MUSIC', 'GAME PUZZLE', 'GAME RACING', 'GAME ROLE PLAYING',
-           'GAME SIMULATION', 'GAME SPORTS', 'GAME STRATEGY', 'GAME TRIVIA',
-           'GAME WORD'
-    ]
-    category_encoder = LabelEncoder()
+    
     code333 = """
         from sklearn.tree import DecisionTreeRegressor
         
