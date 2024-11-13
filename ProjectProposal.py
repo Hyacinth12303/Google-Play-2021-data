@@ -727,8 +727,6 @@ elif st.session_state.page_selection == "prediction":
             st.write(f"**Actual Average Rating**: {random_game['average rating'].values[0]}")
             st.write(f"**Predicted Average Rating**: {predicted_rating:.2f}")
 
-
-    
     #col = st.columns((1, 1, 1), gap='medium')
     #with col[0]:
     #with col[1]:
@@ -748,5 +746,7 @@ elif st.session_state.page_selection == "prediction":
 # Conclusions Page
 elif st.session_state.page_selection == "conclusion":
     st.header("📝 Conclusion")
+    st.write("This project explores the Android game market dataset using two machine learning models: Random Forest Regression and Decision Tree Regression. The model achieved a high R-squared (R2) value in the random forest model. This indicates that the model explains a significant portion of the variance in the average rating. Meanwhile, the R2 value for predicting  ranks is lower compared to the Random Forest model. Though, it properly predicted the correct ranks of most of the titles in each category. ")
+    
 
     # Your content for the CONCLUSION page goes here
