@@ -23,6 +23,11 @@ from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 #from pmdarima import auto_arima
 #I decide to cancel this and only show the snippet code of this(no implementation)
 
+from sklearn.tree import DecisionTreeRegressor
+
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import StandardScaler
+
 from sklearn.ensemble import RandomForestRegressor
 
 from sklearn.preprocessing import StandardScaler
@@ -269,11 +274,36 @@ elif st.session_state.page_selection == "data_cleaning":
     st.write("This code will be used:")
     
     code0 = """
-    label_encoder = LabelEncoder()
-    install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
-    df['installsNumber'] = label_encoder.fit_transform(df['installs'])
+        #converting the object type in order to get the average numerical sense of it
+        #installs is aparently a milestone, I had to replace
+        install_ranges = ['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']
+        
+        install_encoder = OrdinalEncoder(categories=[install_ranges], handle_unknown='use_encoded_value', unknown_value=-1)
+        
+        df['installsNumber'] = install_encoder.fit_transform(df[['installs']])
+        
+        #The reason why I didn't use 1m to 1000000 is because the installs column simply showcases a milestone,
+        #meaning that a game wasn't simply installed around 1 million, it simply reached over 1 million downloads.
+        #This is to make the model compact, simplified and not contain high values.
     """
     st.code(code0, language='python')
+    
+    st.write("To fully incorporate the category of the title of the model, this code will also be used")
+    code000 = """
+        #I use label encode here since it is a category, unlike installs, the higher the value is, the better
+        category_order = [
+            'GAME ACTION', 'GAME ADVENTURE', 'GAME ARCADE', 'GAME BOARD',
+               'GAME CARD', 'GAME CASINO', 'GAME CASUAL', 'GAME EDUCATIONAL',
+               'GAME MUSIC', 'GAME PUZZLE', 'GAME RACING', 'GAME ROLE PLAYING',
+               'GAME SIMULATION', 'GAME SPORTS', 'GAME STRATEGY', 'GAME TRIVIA',
+               'GAME WORD'
+        ]
+        category_encoder = LabelEncoder()
+        
+        df['categoryLabel'] = category_encoder.fit_transform(df['category'])
+    """
+    st.code(code000, language='python')
+    
 #Data Destroying
     st.subheader("Game Card and Game Word Category...")
 
@@ -323,26 +353,23 @@ elif st.session_state.page_selection == "data_cleaning":
     st.markdown("---")
 #I put training code here in this part.
 
-    #ARIMA model training
+    #RF Reg
 
     st.header("Train-Test Split")
-    st.subheader("For the ARIMA model")
+    st.subheader("Random Forest Regressor")
     st.write("The ARIMA model will be used in order to predict the growth over 2 months using the rank and the 1 month growth, thus the 30/60 days growth will only be used to predict the rank of the game.")
 
     code1 = """
-    Adt = df[['growth (30 days)', 'growth (60 days)']]
-    y = Adt['growth (60 days)']
-    exog = Adt[['growth (30 days)']]
-    
-    #split
-    train_y = y[:-30]
-    test_y = y[-30:]
-    train_exog = exog[:-30]
-    test_exog = exog[-30:]
+        # Define features and target
+        X = df[['5 star ratings', '1 star ratings']] #These 2 shows utmost importance, exceeding 0.1
+        y = df['average rating']  # Target variable
+        
+        # Split data into train and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     """
     st.code(code1, language='python')
     
-    st.subheader('For the Linear Regression and Random Forest model')
+    st.subheader('Decision Tree')
     st.write("There will be 2 models used to determine the rank of the game, using different sets of features.\n The linear regression model will use the growth and the number of installs to predict the rank of the game. This will measure the rank basing on the activeness of the game or how often the users engage with the game.\n The random forest on the other hand shall use the average rating, installs, and growth(30 days) to determine the rank of the game. The code below shall be used to train and split the data.")
 
     code2 = """
