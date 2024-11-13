@@ -16,7 +16,7 @@ A streamlit application that analyzes this [dataset](https://www.kaggle.com/data
 
 4. Machine Learning - Training two supervised classification models: Random Forest Regression and Decision Tree. This also includes model details.
 
-5. Prediction - Prediction page where 15 random different games will be displayed and its predicted rank and growth in 60 days
+5. Prediction - Prediction page where rank and average rating is reassigned predicted and compared.
 
 6. Conclusion - Summary of the insights and observations from the EDA and model training.
 
