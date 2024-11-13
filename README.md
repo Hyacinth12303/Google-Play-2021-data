@@ -49,13 +49,16 @@ of 15  columns and 1730 rows.
 
 This project aims to:
 
-Gain insights into the Android game market by exploring and visualizing data on 
-game categories, installs, ratings, and growth. 
-Understand the trend of what makes a game reach the top 100 in a category 
-Clean and prepare the data for modeling. 
-Determine the important features to improve model accuracy. 
-Build predictive models to estimate average ratings and reassign game ranks. 
-Visualize the results of the rank reassignment. 
+- Gain insights into the Android game market by exploring and visualizing data on game categories, installs, ratings, and growth.
+  
+- Understand the trend of what makes a game reach the top 100 in a category
+  
+- Clean and prepare the data for modeling.
+  
+- Determine the important features that affect the rank of a game.
+  
+- Build predictive models to estimate average ratings and reassign game ranks.
+  
 
 
 
