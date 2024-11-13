@@ -681,7 +681,7 @@ elif st.session_state.page_selection == "prediction":
             predicted_rating = rf_model.predict(game_features_scaled)[0]
         
             # Display the results
-            st.subheader("Game Details and Rating Prediction")
+            st.subheader("Game 1")
             st.write(f"**Game Title**: {random_game['title'].values[0]}")
             st.write(f"**Category**: {random_game['category'].values[0]}")
             st.write(f"**Installs**: {random_game['installs'].values[0]}")
@@ -700,7 +700,7 @@ elif st.session_state.page_selection == "prediction":
             predicted_rating = rf_model.predict(game_features_scaled)[0]
         
             # Display the results
-            st.subheader("Game Details and Rating Prediction")
+            st.subheader("Game 2")
             st.write(f"**Game Title**: {random_game['title'].values[0]}")
             st.write(f"**Category**: {random_game['category'].values[0]}")
             st.write(f"**Installs**: {random_game['installs'].values[0]}")
@@ -719,7 +719,7 @@ elif st.session_state.page_selection == "prediction":
             predicted_rating = rf_model.predict(game_features_scaled)[0]
         
             # Display the results
-            st.subheader("Game Details and Rating Prediction")
+            st.subheader("Game 3")
             st.write(f"**Game Title**: {random_game['title'].values[0]}")
             st.write(f"**Category**: {random_game['category'].values[0]}")
             st.write(f"**Installs**: {random_game['installs'].values[0]}")
