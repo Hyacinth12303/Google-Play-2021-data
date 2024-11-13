@@ -4,7 +4,7 @@
 
 A streamlit application that analyzes this [dataset](https://www.kaggle.com/datasets/dhruvildave/top-play-store-games/data)
 
-**Streamlit Link:** [Google Playstore Top Games (2021) Data Analysis]([https://www.kaggle.com/datasets/dhruvildave/top-play-store-games/data](https://gplaystore-top100gamesdt2021.streamlit.app/))
+**Streamlit Link:** [Google Playstore Top Games (2021) Data Analysis](https://www.kaggle.com/datasets/dhruvildave/top-play-store-games/data](https://gplaystore-top100gamesdt2021.streamlit.app/)
 
 
 
