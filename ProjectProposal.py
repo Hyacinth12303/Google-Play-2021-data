@@ -626,8 +626,10 @@ elif st.session_state.page_selection == "machine_learning":
     y_pred = tree_model.predict(X_test)
     r2 = r2_score(y_test, y_pred)
     mse = mean_squared_error(y_test, y_pred)
-    print("Mean Squared Error (MSE):", mse)
-    print("R-squared (R2):", r2)
+    
+    st.subheader("Model Performance:")
+    st.write("Mean Squared Error (MSE):", mse)
+    st.write("R-squared (R²):", r2)
 
 
 
@@ -636,107 +638,68 @@ elif st.session_state.page_selection == "prediction":
     st.header("👀 Prediction")
 
     # Your content for the PREDICTION page goes here
-#ARIMA
-
-    label_encoder = LabelEncoder()
-    install_ranges = OrdinalEncoder(categories=[['100.0 k', '500.0 k', '1.0 M', '5.0 M', '10.0 M', '50.0 M', '100.0 M', '500.0 M', '1000.0 M']], handle_unknown='use_encoded_value', unknown_value=-1)
-    df['installsNumber'] = label_encoder.fit_transform(df['installs'])
-
-    st.subheader("ARIMA model random game 2-month growth prediction visualizer")
-
-    Adt = df[['growth (30 days)', 'growth (60 days)']]
-    y = Adt['growth (60 days)']
-    exog = Adt[['growth (30 days)']]
-    train_y = y[:-30]
-    train_exog = exog[:-30]
-    
-    Amodel = ARIMA(train_y, exog=train_exog, order=(0, 1, 0))
-    model_fit = Amodel.fit()
- 
-    # Function to run ARIMA predictions and plot results
-    def ARIMAPred():
-        sample_indices = random.sample(range(len(df)), 15)
-        sample_indices.sort()  # Sort indices for better visualization
-        sample_data = df.iloc[sample_indices]
-    
-        prediction_range = range(sample_indices[0], sample_indices[0] + 15)
-        sample_exog = df.loc[prediction_range, ['growth (30 days)']]
-    
-        # Predict using the ARIMA model
-        sample_predictions = model_fit.predict(start=sample_indices[0], end=sample_indices[0] + 14, exog=sample_exog)
-    
-        plt.figure(figsize=(12, 6))
-        plt.plot(sample_data['title'], sample_data['growth (60 days)'], label='Actual', marker='o')
-        plt.plot(sample_data['title'], sample_predictions, label='Predicted', marker='x')  # Use the same x-axis
-        plt.xlabel('Title')
-        plt.ylabel('Growth (60 days)')
-        plt.title('ARIMA Predictions for 15 Random Titles')
-        plt.xticks(rotation=90)
-        plt.legend()
-        plt.tight_layout()
-        st.pyplot(plt)
-    ARIMAPred()
-    
-
-    if st.button('Randomizer'):
-        ARIMAPred()
-
-
-
-
-
-
-
-
-
-    
-    def visualize_predictions():
-        sample_indices = random.sample(range(len(df)), 15)
-        sample_indices.sort()
-
-        titles = []
-        actual_ranks = []
-        predicted_ranks = []
-
-        for index in sample_indices:
-            new_data = df[['average rating', 'installsNumber', 'growth (30 days)', 'growth (60 days)', 'paid']].iloc[[index]]
-            predicted_rank = LRM.predict(new_data)[0]
-
-            titles.append(df['title'].iloc[index])
-            actual_ranks.append(df['rank'].iloc[index])
-            predicted_ranks.append(predicted_rank)
-
-        plt.figure(figsize=(12, 6))
-        plt.plot(titles, actual_ranks, marker='o', label='Actual Rank')
-        plt.plot(titles, predicted_ranks, marker='x', label='Predicted Rank')
-        plt.xlabel('Title')
-        plt.ylabel('Rank')
-        plt.title('Actual vs. Predicted Ranks for 15 Random Titles')
-        plt.xticks(rotation=90)
-        plt.legend()
-        plt.tight_layout()
-        st.pyplot(plt)
-        
-        # Create the button
-        if st.button("Randomize!"):
-            visualize_predictions()
-
-
-
-
-
-
-
-
-        
-        
-        instLL()
-
-
-    st.subheader("Linear Regression model random game prediction visualizer")
+#RF
+    X = df[['5 star ratings', '1 star ratings']] #These 2 shows utmost importance, exceeding 0.1
+    y = df['average rating']  # Target variable
     
     
+    # Split data into train and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
+    # Scale features
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
+    # Initialize and train the Random Forest Regressor
+    rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+    rf_model.fit(X_train_scaled, y_train)
+    
+    y_pred = rf_model.predict(X_test_scaled)
+    
+
+    st.title("Random Game Rating Prediction")
+    st.write("This will predict the average rating of a random game based on its 5-star and 1-star ratings.")
+    
+    df['predicted_rank'] = tree_model.predict(X)
+    df_sorted = df.sort_values(by='predicted_rank', ascending=True)  
+    df['predicted_rank_ordinal'] = df['predicted_rank'].round().astype(int)
+    
+    y_pred = tree_model.predict(X_test)
+    r2 = r2_score(y_test, y_pred)
+    mse = mean_squared_error(y_test, y_pred)
+
+    X = df[['5 star ratings', '1 star ratings']]
+    y = df['average rating']
+    
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+    
+    rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+    rf_model.fit(X_scaled, y)
+    
+    if st.button("Random Game"):
+        # Randomly select a game for prediction
+        random_game = df.sample(1)
+    
+        # Get the game's features and scale them using the same scaler
+        game_features = random_game[['5 star ratings', '1 star ratings']]
+        game_features_scaled = scaler.transform(game_features)
+    
+        # Predict the average rating
+        predicted_rating = rf_model.predict(game_features_scaled)[0]
+    
+        # Display the results
+        st.subheader("Game Details and Rating Prediction")
+        st.write(f"**Game Title**: {random_game['title'].values[0]}")
+        st.write(f"**Category**: {random_game['category'].values[0]}")
+        st.write(f"**Installs**: {random_game['installs'].values[0]}")
+        st.write(f"**Rank**: {random_game['rank'].values[0]}")
+        st.write(f"**Actual Average Rating**: {random_game['average rating'].values[0]}")
+        st.write(f"**Predicted Average Rating**: {predicted_rating:.2f}")
+
+
+
     
     #col = st.columns((1.5, 4.5, 3), gap='medium')
     #with col[0]:
