@@ -425,7 +425,8 @@ elif st.session_state.page_selection == "data_cleaning":
     ]
     category_encoder = LabelEncoder()
 
-df['categoryLabel'] = category_encoder.fit_transform(df['category'])
+    df['categoryLabel'] = category_encoder.fit_transform(df['category'])
+    
     if st.checkbox("Show Graph"):
         
         # Encode categorical features
