@@ -2,7 +2,7 @@
 
 **[Disclaimer]: None of the assets/data belonged to me**
 
-A streamlit application that analyzes this [dataset](https://www.kaggle.com/datasets/dhruvildave/top-play-store-games/data)
+A streamlit application that analyzes this [dataset](https://www.kaggle.com/datasets/dhruvildave/top-play-store-games/data) and determines important features in what makes a game reach the top 100
 
 **Streamlit Link:** [Google Playstore Top Games (2021) Data Analysis](https://gplaystore-top100gamesdt2021.streamlit.app/)
 
