@@ -90,7 +90,9 @@ with st.sidebar:
 
     if st.button("Conclusion", use_container_width=True, on_click=set_page_selection, args=('conclusion',)):
         st.session_state.page_selection = "conclusion"
-        
+
+    st.subheader("Links:")
+    
     st.markdown("📊 [Dataset](https://www.kaggle.com/datasets/dhruvildave/top-play-store-games/data)")
     st.markdown("📗 [Google Colab Notebook](https://colab.research.google.com/drive/1nRjPVZIxLMBB305f4LlDbV8QDu9w501K?usp=sharing)")
     st.markdown("🐙 [GitHub Repository](https://github.com/Hyacinth12303/Google-Play-2021-data)")
