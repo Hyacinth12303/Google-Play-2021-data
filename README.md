@@ -8,6 +8,16 @@ A streamlit application that analyzes [this](https://www.kaggle.com/datasets/dhr
 
 **GColab Link:** [Project Finale](https://colab.research.google.com/drive/1nRjPVZIxLMBB305f4LlDbV8QDu9w501K?usp=sharing)
 
+
+**Members:**
+
+1. Reyes, Joanna Hyacinth M.
+
+**Project Brief**
+
+The application aims to understand the dataset that includes details of the top 100 games in the Google Play Store in 2021, with 15 columns and 1730 rows, covering aspects like rank, title, total ratings, installs, average rating, growth, price, category, and star ratings. It aims to gain insights into the Android game market, understand trends, clean and prepare data, determine important features affecting game rank, and build predictive models for average ratings and game ranks.
+   
+
 **[Streamlit Pages]**
 
 1. Dataset - Brief description of the Top 100 Google Playstore Games dataset used in this dashboard.
@@ -120,8 +130,5 @@ Meanwhile, the R2 value for predicting ranks using the Decision Tree is lower co
 model. However, it properly predicted the correct ranks of most of the titles in each category.
 
 
-**Members:**
-
-1. Reyes, Joanna Hyacinth M.
 
    
