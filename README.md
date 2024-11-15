@@ -6,6 +6,8 @@ A streamlit application that analyzes this [dataset](https://www.kaggle.com/data
 
 **Streamlit Link:** [Google Playstore Top Games (2021) Data Analysis](https://gplaystore-top100gamesdt2021.streamlit.app/)
 
+**GColab Link:** [Project Finale](https://colab.research.google.com/drive/1nRjPVZIxLMBB305f4LlDbV8QDu9w501K?usp=sharing)
+
 **[Streamlit Pages]**
 
 1. Dataset - Brief description of the Top 100 Google Playstore Games dataset used in this dashboard.
